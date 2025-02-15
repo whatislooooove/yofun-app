@@ -15,5 +15,10 @@ class Source extends Model
         'url',
         'parser',
         'is_active',
+        'extra'
+    ];
+
+    protected $casts = [
+        'extra' => 'array'
     ];
 }
