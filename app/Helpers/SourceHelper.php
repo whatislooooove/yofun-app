@@ -26,4 +26,12 @@ class SourceHelper
 
         return true;
     }
+
+    public static function parseSource(Source $source, string $keyUrl): void {
+        echo 'Parsing ' . $keyUrl . '...' . PHP_EOL;
+
+        $parserName = 'App\Parsers\\' . $source['parser'];
+        $parser = new $parserName($keyUrl);
+        $parser->run();
+    }
 }

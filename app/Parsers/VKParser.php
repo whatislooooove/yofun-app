@@ -15,6 +15,7 @@ class VKParser extends AbstractParser
         //TODO: если будет много манипуляций с урлами, вынести в отдельный хелпер
         $this->url = ltrim(parse_url($url)['path'], '/');
         $this->source = Source::where('url', $url)->first();
+        $this->posts = [];
     }
 
     protected function getContent(): void
@@ -27,7 +28,9 @@ class VKParser extends AbstractParser
         ]);
 
         if (!$this->source['extra'] || $this->source['extra']['currentCount'] < $response['count']) {
-            $this->posts = array_key_exists('currentCount', $this->source['extra']) ? array_slice($response['items'], 0, $response['count'] - $this->source['extra']['currentCount'] + 1) : $response['items'];
+            $this->posts = is_array($this->source['extra']) && array_key_exists('currentCount', $this->source['extra'])
+                ? array_slice($response['items'], 0, $response['count'] - $this->source['extra']['currentCount'] + 1)
+                : $response['items'];
             $this->source['extra'] = [
                 'currentCount' => $response['count']
             ];
@@ -38,6 +41,6 @@ class VKParser extends AbstractParser
     protected function parseContent()
     {
         // TODO: Implement parseContent() method.
-        echo 'parse content in ' . $this->url;
+        echo 'parse content in ' . $this->url . PHP_EOL;
     }
 }
