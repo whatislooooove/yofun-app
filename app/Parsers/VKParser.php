@@ -45,7 +45,6 @@ use VK\Client\VKApiClient;
 
         $this->source['extra'] = array_merge($this->source['extra'], $extra);
         $this->source->save();
-        dd($this->posts);
     }
 
     protected function parseContent()
