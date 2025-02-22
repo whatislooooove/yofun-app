@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Helpers;
+namespace App\Helpers;
 
 use Exception;
 use GuzzleHttp\Client;
@@ -94,7 +94,7 @@ final class MistralAIHelper
                 $response = $result;
             }
         } catch (Exception $e) {
-            $response = $e->getMessage();
+            $response = [$e->getMessage()];
         }
 
         return [
@@ -118,7 +118,7 @@ final class MistralAIHelper
 
         return [
             'isSuccess' => $response['isSuccess'],
-            'response' => $response['response']['choices'][0]['message']['content']
+            'response' => data_get($response, 'response.choices.0.message.content') ?? $response['response']
         ];
     }
 

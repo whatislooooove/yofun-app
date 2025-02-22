@@ -2,8 +2,6 @@
 
 namespace App\Parsers;
 
-use App\Parsers\IParser;
-
 abstract class AbstractParser implements IParser
 {
     protected string $url;

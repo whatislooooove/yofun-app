@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\HostsParsers;
 use App\Models\Source;
 
 class SourceHelper
