@@ -6,6 +6,7 @@ namespace App\Parsers;
 set_time_limit(600);
 
 use AllowDynamicProperties;
+use App\Enums\HostsParsers;
 use App\Enums\Prompts;
 use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
@@ -64,8 +65,10 @@ use VK\Client\VKApiClient;
             //----------------------------------------------------------------------------------------------------------
             if (!$mistralResponse['isSuccess']
                 || !data_get($preparedAiData, 'isEvent')
-                || time() > Carbon::createFromFormat('Y.m.d H:i', $preparedAiData['dateTime'])->timestamp
-                || is_null($preparedAiData)){
+                || !$preparedAiData['dateTime']
+                || time() > Carbon::parse(str_replace('.', '-', $preparedAiData['dateTime']))->timestamp
+                || is_null($preparedAiData)
+                || Announcement::where('id_in_source', $post['id'])->exists()){
                 continue;
             }
 
@@ -75,15 +78,18 @@ use VK\Client\VKApiClient;
                 'title' => $preparedAiData['title'],
                 'description' => $preparedAiData['description'],
                 'type' => 'default',
-                'address' => $preparedAiData['address'],
+                'address' => $preparedAiData['address'] ?: $this->source->extra['address'],
                 'img' => data_get($post, 'attachments.0.photo.orig_photo.url'),
-                'latitude' => $post['geo']['place']['latitude'],
-                'longitude' => $post['geo']['place']['longitude'],
+                'latitude' => data_get($post, 'geo.place.latitude') ?? $this->source->extra['defaultLatitude'],
+                'longitude' => data_get($post, 'geo.place.longitude') ?? $this->source->extra['defaultLongitude'],
                 'date_start' => $preparedAiData['dateTime'],
+                'price' => data_get($preparedAiData, 'price') ?? 0,
+                'detail_url' => HostsParsers::VKParser->value . '/wall' . $this->source['extra']['groupId'] . '_' . $post['id'],
                 'extra' => [
                     'publishDate' => gmdate('Y.m.d H:i:s', $post['date']),
                     'editDate' => data_get($post, 'edited') ? gmdate('Y.m.d H:i:s', $post['edited']) : null,
                     'views' => $post['views']['count'],
+                    'additional_address' => $this->source->extra['additionalAddress'],
                     'sourceText' =>  $post['text']
                 ]
             ]);
@@ -109,6 +115,9 @@ use VK\Client\VKApiClient;
             'group_id' => $this->getGroupId(),
             'fields' => 'site,phone'
         ]);
+        $address = $this->vkApi->groups()->getAddresses(env('VK_API_ACCESS_TOKEN'), [
+            'group_id' => $this->getGroupId(),
+        ]);
 
         return [
             'groupId' => -$response[0]['id'],
@@ -116,6 +125,10 @@ use VK\Client\VKApiClient;
             'site' => $response[0]['site'],
             'phone' => $response[0]['phone'],
             'image' => data_get($response, '0.photo_200') ?? data_get($response, '0.photo_100') ?? data_get($response, '0.photo_50') ?? null,
+            'address' => data_get($address, 'items.0.address'),
+            'additionalAddress' => data_get($address, 'items.0.additional_address'),
+            'defaultLatitude' => data_get($address, 'items.0.latitude') ?? 0,
+            'defaultLongitude' => data_get($address, 'items.0.longitude') ?? 0
         ];
     }
 }

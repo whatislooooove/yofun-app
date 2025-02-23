@@ -28,7 +28,7 @@ class ParseSource extends Command
      */
     public function handle()
     {
-        $sources = Source::where('is_active', true)->get()->keyBy('url');
+        $sources = Source::where('is_active', true)->orderBy('created_at', 'desc')->get()->keyBy('url');
         if ($sources->isEmpty()){
             $this->error('Active sources is doesn\'t exist');
             return;

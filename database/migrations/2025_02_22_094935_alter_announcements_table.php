@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('announcements', function (Blueprint $table) {
             $table->json('extra')->nullable();
+            $table->unsignedSmallInteger('price')->nullable(false)->default(0);
+            $table->string('detail_url')->nullable(false);
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('announcements', function (Blueprint $table) {
             $table->dropColumn('extra');
+            $table->dropColumn('price');
+            $table->dropColumn('detail_url');
         });
     }
 };
