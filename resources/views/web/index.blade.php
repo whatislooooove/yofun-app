@@ -10,7 +10,7 @@
     <main class="flex-shrink-0">
 
     </main>
-    <footer class="footer mt-auto py-3 bg-light">
+    <footer class="bottom-0 position-absolute w-100 bg-dark bg-gradient rounded-top">
         @include('web.layout.footer')
     </footer>
 </body>
