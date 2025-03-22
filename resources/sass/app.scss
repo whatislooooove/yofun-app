@@ -13,3 +13,17 @@ html {
 .shadow {
     box-shadow: 0px 0rem 3rem #000 !important;
 }
+
+.carousel-item, .slide-image {
+    height: 600px;
+}
+
+.carousel-caption {
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 768px) {
+    .carousel-item, .slide-image {
+        height: 300px;
+    }
+}

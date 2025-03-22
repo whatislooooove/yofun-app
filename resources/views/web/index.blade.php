@@ -7,10 +7,12 @@
     <header>
         @include('web.layout.header')
     </header>
-    <main class="flex-shrink-0">
-
+    <main class="flex-shrink-0 min-vh-100">
+        <div class="container">
+            @include('web.layout.content')
+        </div>
     </main>
-    <footer class="bottom-0 position-absolute w-100 bg-dark bg-gradient rounded-top">
+    <footer class="w-100 bg-dark bg-gradient rounded-top">
         @include('web.layout.footer')
     </footer>
 </body>

@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
         "softcreatr/php-mistral-ai-sdk": "^2.0",
+        "symfony/filesystem": "^7.2",
         "twbs/bootstrap": "5.0.2",
         "vkcom/vk-php-sdk": "^5.131"
     },

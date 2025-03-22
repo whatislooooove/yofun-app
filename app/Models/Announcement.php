@@ -11,4 +11,9 @@ class Announcement extends Model
     protected $casts = [
         'extra' => 'array'
     ];
+
+    public function getDetailUrlAttribute($value)
+    {
+        return 'https://' . $value;
+    }
 }

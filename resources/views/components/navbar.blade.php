@@ -14,7 +14,7 @@
                     <a class="nav-link" href="#">Квизы</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">О нас</a>
+                    <a class="nav-link" href="{{ route('about') }}">О нас</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Обратная связь</a>
