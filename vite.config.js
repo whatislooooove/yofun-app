@@ -20,6 +20,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/sass/components/card.scss',
                 'resources/js/app.js',
             ],
             refresh: true,

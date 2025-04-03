@@ -6,3 +6,4 @@
 <title>Йошкар-Ола - чем заняться?</title>
 
 @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+@stack('extra-styles')

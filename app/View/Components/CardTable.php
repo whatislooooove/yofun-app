@@ -2,17 +2,17 @@
 
 namespace App\View\Components;
 
-use App\Models\Announcement;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class AnnouncementCard extends Component
+class CardTable extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public Announcement $announcement)
+    public function __construct(public string $title, public Collection $tableItems)
     {
         //
     }
@@ -22,6 +22,6 @@ class AnnouncementCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.announcement-card');
+        return view('components.card-table');
     }
 }
