@@ -18,6 +18,7 @@ use SoftCreatR\MistralAI\MistralAIURLBuilder;
 final class MistralAIHelper
 {
     const PAUSE_TIME = 3;
+    const MODEL_NAME = 'codestral-latest';
     /**
      * Prevents instantiation of this class.
      */
@@ -105,9 +106,9 @@ final class MistralAIHelper
     }
 
     public static function simpleRequest(string $message): array {
-        sleep(self::PAUSE_TIME); // Чтобы не нарваться на лимит скорости запросов
+        sleep(self::PAUSE_TIME); // Чтобы не нарваться на лимит частоты запросов
         $response = self::request('createChatCompletion', [
-            'model' => 'mistral-small-latest',
+            'model' => self::MODEL_NAME,
             'messages' => [
                 [
                     'role' => 'user',

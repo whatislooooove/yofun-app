@@ -57,6 +57,10 @@ use VK\Client\VKApiClient;
     protected function parseContent(): void
     {
         foreach ($this->posts as $post) {
+            if (data_get($post, 'is_pinned', false)) {
+                continue;
+            }
+
             //----------------------------------------------------------------------------------------------------------
             //TODO: надо будет переписать нормально
             $mistralResponse = MistralAIHelper::simpleRequest(Prompts::ParseContent->value . $post['text'] . '. Дата написания исходного текста - ' . gmdate('d.m.Y H:i:s', $post['date']));
@@ -72,8 +76,10 @@ use VK\Client\VKApiClient;
                 continue;
             }
 
-            Announcement::create([
+            Announcement::updateOrCreate([
                 'source_id' => $this->source->id,
+                'date_start' => $preparedAiData['dateTime'],
+            ],[
                 'id_in_source' => $post['id'],
                 'title' => $preparedAiData['title'],
                 'description' => $preparedAiData['description'],
@@ -90,7 +96,7 @@ use VK\Client\VKApiClient;
                     'editDate' => data_get($post, 'edited') ? gmdate('Y.m.d H:i:s', $post['edited']) : null,
                     'views' => $post['views']['count'],
                     'additional_address' => $this->source->extra['additionalAddress'],
-                    'sourceText' =>  $post['text']
+                    'sourceText' => $post['text']
                 ]
             ]);
         }
@@ -121,9 +127,9 @@ use VK\Client\VKApiClient;
 
         return [
             'groupId' => -$response[0]['id'],
-            'name' => $response[0]['name'],
-            'site' => $response[0]['site'],
-            'phone' => $response[0]['phone'],
+            'name' => data_get($response, '0.name'),
+            'site' => data_get($response, '0.site'),
+            'phone' => data_get($response, '0.phone'),
             'image' => data_get($response, '0.photo_200') ?? data_get($response, '0.photo_100') ?? data_get($response, '0.photo_50') ?? null,
             'address' => data_get($address, 'items.0.address'),
             'additionalAddress' => data_get($address, 'items.0.additional_address'),
