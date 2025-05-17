@@ -15,7 +15,7 @@ class Announcement extends Model
 
     public function getDetailUrlAttribute($value)
     {
-        return 'https://' . $value;
+        return str_starts_with($value, 'https://') ? $value : 'https://' . $value;
     }
 
     public function scopeActive(Builder $query) {

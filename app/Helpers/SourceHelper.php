@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Enums\HostsParsers;
 use App\Models\Source;
+use App\Parsers\Quiz\DefaultParser;
 
 class SourceHelper
 {
@@ -13,7 +14,7 @@ class SourceHelper
     {
         $parser = match (parse_url($url)['host']) {
             HostsParsers::VKParser->value => self::PARSERS_NAMESPACE . HostsParsers::VKParser->name,
-            default => 'DefaultParser'
+            default => DefaultParser::class
         };
 
         if (!is_null(Source::where('url', $url)->first())) {
