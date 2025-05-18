@@ -2,21 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Enums\HostsParsers;
 use App\Models\Source;
-use App\Parsers\Quiz\DefaultParser;
 
-class SourceHelper
+final class SourceHelper
 {
     const SOURCE_EXIST_MESSAGE = 'Source exist';
-    const PARSERS_NAMESPACE = 'App\Parsers\\';
-    public static function addNewSource(string $url): bool|string
+    public static function addNewSource(string $url, string $parser): bool|string
     {
-        $parser = match (parse_url($url)['host']) {
-            HostsParsers::VKParser->value => self::PARSERS_NAMESPACE . HostsParsers::VKParser->name,
-            default => DefaultParser::class
-        };
-
         if (!is_null(Source::where('url', $url)->first())) {
             return self::SOURCE_EXIST_MESSAGE;
         }

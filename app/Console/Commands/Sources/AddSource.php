@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Sources;
 
+use App\Helpers\ParserHelper;
 use App\Helpers\SourceHelper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +43,11 @@ class AddSource extends Command
             $sourceUrl = $this->inputHandle();
         }
 
-        $result = SourceHelper::addNewSource($sourceUrl);
+        if (($sourceParser = ParserHelper::isSpecificSource($sourceUrl)) === true) {
+            $sourceParser = $this->choice('Select parser for source', ParserHelper::getParsersList());
+        }
+
+        $result = SourceHelper::addNewSource($sourceUrl, $sourceParser);
         if ($result !== true) {
             $this->error($result);
 

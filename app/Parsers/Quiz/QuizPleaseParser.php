@@ -13,7 +13,7 @@ use App\Models\Source;
 use App\Parsers\AbstractParser;
 use Illuminate\Support\Facades\Http;
 
-#[AllowDynamicProperties] class DefaultParser extends AbstractParser
+#[AllowDynamicProperties] class QuizPleaseParser extends AbstractParser
 {
     const IMAGE_URL_PREFIX = 'https://file-storage.storage.yandexcloud.net/';
     const DETAIL_PAGE = 'https://yo.quizplease.ru/game-page?id=';
