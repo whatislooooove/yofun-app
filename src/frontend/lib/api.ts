@@ -10,19 +10,6 @@ export interface IndexData {
 }
 
 export async function getIndexData(): Promise<IndexData> {
-    /*
-     * РЕАЛЬНАЯ РЕАЛИЗАЦИЯ:
-     *
-     * try {
-     *   const response = await fetch(`${API_BASE_URL}/quizzes/popular`)
-     *   const data = await response.json()
-     *   return data.quizzes
-     * } catch (error) {
-     *   console.error('Error fetching popular quizzes:', error)
-     *   return []
-     * }
-     */
-
     try {
         const response = await fetch(`http://server-nginx:80/api/v1/`, {
             method: 'GET',
@@ -34,29 +21,4 @@ export async function getIndexData(): Promise<IndexData> {
     } catch (error) {
         console.error('Error:', error)
     }
-
-    return {
-        sliderEvents: events,
-        todayEvents: events,
-        todayQuizzes: events,
-    };
 }
-
-/*
- * ДОПОЛНИТЕЛЬНЫЕ API ФУНКЦИИ ДЛЯ РАСШИРЕНИЯ:
- *
- * export async function getEventById(id: string): Promise<Event | null> {
- *   const response = await fetch(`${API_BASE_URL}/events/${id}`)
- *   return response.json()
- * }
- *
- * export async function getEventsByCategory(category: string): Promise<Event[]> {
- *   const response = await fetch(`${API_BASE_URL}/events?category=${category}`)
- *   return response.json()
- * }
- *
- * export async function searchEvents(query: string): Promise<Event[]> {
- *   const response = await fetch(`${API_BASE_URL}/events/search?q=${query}`)
- *   return response.json()
- * }
- */
