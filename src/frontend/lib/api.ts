@@ -5,8 +5,8 @@ import type {Event, Quiz} from "./types"
 
 export interface IndexData {
     sliderEvents: Event[]
-    todayEvents: Event[]
-    todayQuizzes: Quiz[]
+    upcomingEvents: Event[]
+    upcomingQuizzes: Quiz[]
 }
 
 export async function getIndexData(): Promise<IndexData> {
@@ -14,7 +14,8 @@ export async function getIndexData(): Promise<IndexData> {
         const response = await fetch(`http://server-nginx:80/api/v1/`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
         })
         return await response.json()

@@ -14,8 +14,8 @@ class MainController extends Controller
 
         return response()->json([
             'sliderEvents' => AnnouncementResource::collection($eventsData->sliderEvents),
-            'todayEvents' => AnnouncementResource::collection($eventsData->todayEvents),
-            'todayQuizzes' => AnnouncementResource::collection($eventsData->todayQuizzes),
+            'upcomingEvents' => AnnouncementResource::collection($eventsData->upcomingEvents),
+            'upcomingQuizzes' => AnnouncementResource::collection($eventsData->upcomingQuizzes),
         ]);
     }
 }

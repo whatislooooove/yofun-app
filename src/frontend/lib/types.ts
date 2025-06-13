@@ -13,10 +13,10 @@ export interface Event {
 export interface Quiz {
   id: string
   title: string
+  description: string
   date: string
   time: string
   location: string
   price: number
-  teamSize: number
   image: string
 }

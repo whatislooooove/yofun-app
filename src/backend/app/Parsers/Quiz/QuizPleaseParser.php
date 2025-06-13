@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Http;
 
 #[AllowDynamicProperties] class QuizPleaseParser extends AbstractParser
 {
-    const IMAGE_URL_PREFIX = 'https://file-storage.storage.yandexcloud.net/';
-    const DETAIL_PAGE = 'https://yo.quizplease.ru/game-page?id=';
+    const string IMAGE_URL_PREFIX = 'https://file-storage.storage.yandexcloud.net/';
+    const string DETAIL_PAGE = 'https://yo.quizplease.ru/game-page?id=';
+    const string FRANCHISE_NAME = 'QuizPlease';
     protected string $url;
     private Source $source;
     private string $htmlCode;
@@ -93,7 +94,9 @@ use Illuminate\Support\Facades\Http;
                     'detail_url' => self::DETAIL_PAGE . $resultData['id_in_source'],
                     'latitude' => 0,
                     'longitude' => 0,
-                    'extra' => []
+                    'extra' => [
+                        'franchise' => self::FRANCHISE_NAME
+                    ]
                 ]);
             }
         }

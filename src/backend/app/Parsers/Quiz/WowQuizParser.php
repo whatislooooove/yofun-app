@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\URL;
     const string API_URL = 'https://api.etowow.ru/games/all';
     const string DETAIL_PAGE = 'https://yo.wowquiz.ru/schedule';
 
+    const string FRANCHISE_NAME = 'WowQuiz';
+
     protected string $url;
     protected array $preparedData;
 
@@ -85,7 +87,9 @@ use Illuminate\Support\Facades\URL;
                 'detail_url' => self::DETAIL_PAGE,
                 'latitude' => 0,
                 'longitude' => 0,
-                'extra' => []
+                'extra' => [
+                    'franchise' => self::FRANCHISE_NAME
+                ]
             ]);
         }
     }

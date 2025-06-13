@@ -9,13 +9,13 @@ class AnnouncementsDTO
 {
     const int SLIDER_MAX_ITEMS = 3;
     const int BLOCK_MAX_ITEMS = 8;
-    public readonly Collection $todayEvents;
-    public readonly Collection $todayQuizzes;
+    public readonly Collection $upcomingEvents;
+    public readonly Collection $upcomingQuizzes;
     public readonly Collection $sliderEvents;
 
-    private function __construct(Collection $todayEvents, Collection $todayQuizzes, Collection $sliderEvents) {
-        $this->todayEvents = $todayEvents;
-        $this->todayQuizzes = $todayQuizzes;
+    private function __construct(Collection $upcomingEvents, Collection $upcomingQuizzes, Collection $sliderEvents) {
+        $this->upcomingEvents = $upcomingEvents;
+        $this->upcomingQuizzes = $upcomingQuizzes;
         $this->sliderEvents = $sliderEvents;
     }
 
@@ -29,17 +29,17 @@ class AnnouncementsDTO
             return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek));
         })->values()->take(self::SLIDER_MAX_ITEMS);
 
-        $todayEvents = $announcements->filter(function ($item) use ($today, $nextWeek) {
+        $upcomingEvents = $announcements->filter(function ($item) use ($today, $nextWeek) {
             $itemDate = Carbon::parse($item->date_start);
             return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek)) && $item->type == 'default';
         })->values()->take(self::BLOCK_MAX_ITEMS);
 
-        $todayQuizzes = $announcements->filter(function ($item) use ($nextWeek, $today) {
+        $upcomingQuizzes = $announcements->filter(function ($item) use ($nextWeek, $today) {
             $itemDate = Carbon::parse($item->date_start);
             return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek)) && $item->type == 'quiz';
         })->values()->take(self::BLOCK_MAX_ITEMS);
 
 
-        return new static($todayEvents, $todayQuizzes, $sliderEvents);
+        return new static($upcomingEvents, $upcomingQuizzes, $sliderEvents);
     }
 }

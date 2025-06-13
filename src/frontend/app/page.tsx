@@ -43,9 +43,9 @@ export default async function HomePage() {
    const indexData = await getIndexData()
 
     const hasSliderEvents = indexData.sliderEvents && indexData.sliderEvents.length > 0
-    const hasTodayEvents = indexData.todayEvents && indexData.todayEvents.length > 0
-    const hasTodayQuizzes = indexData.todayQuizzes && indexData.todayQuizzes.length > 0
-    const isNoEvent = (!hasSliderEvents && !hasTodayEvents && !hasTodayQuizzes)
+    const hasUpcomingEvents = indexData.upcomingEvents && indexData.upcomingEvents.length > 0
+    const hasUpcomingQuizzes = indexData.upcomingQuizzes && indexData.upcomingQuizzes.length > 0
+    const isNoEvent = (!hasSliderEvents && !hasUpcomingEvents && !hasUpcomingQuizzes)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
@@ -54,8 +54,8 @@ export default async function HomePage() {
           {isNoEvent ? (<EmptyState />) : (
               <>
                   <EventSlider events={indexData.sliderEvents} />
-                  <TodayEvents events={indexData.todayEvents} />
-                  <PopularQuizzes quizzes={indexData.todayQuizzes} />
+                  <TodayEvents events={indexData.upcomingEvents} />
+                  <PopularQuizzes quizzes={indexData.upcomingQuizzes} />
               </>)}
       </main>
       <Footer />

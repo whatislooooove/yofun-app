@@ -29,8 +29,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
             </button>
             <h3 className="text-white text-xl font-bold mb-4">{quiz.title}</h3>
             <p className="text-purple-200 leading-relaxed">
-              Увлекательный квиз для команд до {quiz.teamSize} человек. Проверьте свои знания и получите незабываемые
-              эмоции в компании друзей!
+              {quiz.description}
             </p>
           </div>
         </div>
@@ -85,11 +84,6 @@ export default function QuizCard({ quiz }: QuizCardProps) {
             <Clock className="w-4 h-4 mr-2" />
             <span>{formatTime(quiz.time)}</span>
           </div>
-        </div>
-
-        <div className="flex items-center text-purple-300 text-sm">
-          <Users className="w-4 h-4 mr-2" />
-          <span>Команда: {quiz.teamSize} чел.</span>
         </div>
       </CardContent>
 
