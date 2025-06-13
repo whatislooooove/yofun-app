@@ -21,4 +21,8 @@ class Announcement extends Model
     public function scopeActive(Builder $query) {
         $query->where('is_active', true);
     }
+
+    public function scopeQuizzes(Builder $query) {
+        $query->where('type', 'quiz');
+    }
 }

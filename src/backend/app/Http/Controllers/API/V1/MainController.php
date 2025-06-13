@@ -18,4 +18,8 @@ class MainController extends Controller
             'upcomingQuizzes' => AnnouncementResource::collection($eventsData->upcomingQuizzes),
         ]);
     }
+
+    public function quizzes() {
+        return AnnouncementResource::collection(Announcement::active()->quizzes()->paginate(12));
+    }
 }
