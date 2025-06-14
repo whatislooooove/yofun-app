@@ -2,6 +2,7 @@ export interface Event {
   id: string
   title: string
   description: string
+  detail: string
   date: string
   time: string
   location: string
@@ -14,6 +15,7 @@ export interface Quiz {
   id: string
   title: string
   description: string
+  detail: string
   date: string
   time: string
   location: string

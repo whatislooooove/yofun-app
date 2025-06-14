@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 
 export default function EmptyState() {
     return (
-
             <div className="max-w-4xl mx-auto text-center">
                 {/* Главная иллюстрация */}
                 <div className="relative mb-12">

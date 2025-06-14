@@ -10,8 +10,7 @@ export const FOOTER_LINKS = [
     title: "Информация",
     links: [
       { label: "О нас", url: "/about" },
-      { label: "Контакты", url: "/contacts" },
-      { label: "Как купить билет", url: "/how-to-buy" },
+      { label: "Связаться с нами", url: "/contact" },
       { label: "Вопросы и ответы", url: "/faq" },
     ],
   },

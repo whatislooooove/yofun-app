@@ -127,7 +127,7 @@ export default function EventSlider({ events }: EventSliderProps) {
                     </div>
 
                     <div className="mt-8">
-                      <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 shadow-lg">
+                      <Button href={event.detail} className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 shadow-lg" target="_blank">
                         Подробнее
                       </Button>
                     </div>

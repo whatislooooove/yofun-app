@@ -88,8 +88,8 @@ export default function QuizCard({ quiz }: QuizCardProps) {
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3">
-          Зарегистрироваться
+        <Button href={quiz.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3" target="_blank">
+          Подробнее
         </Button>
       </CardFooter>
     </Card>

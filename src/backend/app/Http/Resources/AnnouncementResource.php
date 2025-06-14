@@ -19,6 +19,7 @@ class AnnouncementResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'detail' => $this->detail_url,
             'date' => Carbon::parse($this->date_start)->format('Y-m-d'),
             'time' => Carbon::parse($this->date_start)->format('H:i'),
             'location' => $this->address,
