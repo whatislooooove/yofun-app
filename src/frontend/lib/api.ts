@@ -1,7 +1,6 @@
 import type {Event, Quiz} from "./types"
 
-// Базовый URL для API (добавьте в .env файл)
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.cityevents.ru'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export interface IndexData {
     sliderEvents: Event[]
@@ -34,7 +33,7 @@ export interface EventsResponse {
 
 export async function getIndexData(): Promise<IndexData> {
     try {
-        const response = await fetch(`http://server-nginx:80/api/v1/`, {
+        const response = await fetch(API_BASE_URL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +53,7 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
     try {
         const queryParams = new URLSearchParams()
         queryParams.append('page', page.toString())
-        const response = await fetch(`http://server-nginx/api/v1/quizzes?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}quizzes?${queryParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +97,7 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
     try {
         const queryParams = new URLSearchParams()
         queryParams.append('page', page.toString())
-        const response = await fetch(`http://server-nginx/api/v1/events?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}events?${queryParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
