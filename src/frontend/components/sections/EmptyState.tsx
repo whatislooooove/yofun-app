@@ -7,7 +7,7 @@ export default function EmptyState() {
     return (
             <div className="max-w-4xl mx-auto text-center">
                 {/* Главная иллюстрация */}
-                <div className="relative mb-12">
+                <div className="relative mt-12 mb-12">
                     <div className="w-48 h-48 mx-auto bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center relative overflow-hidden">
                         {/* Фоновые декоративные элементы */}
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 to-indigo-200/30"></div>

@@ -31,7 +31,7 @@ class AnnouncementsDTO
 
         $upcomingEvents = $announcements->filter(function ($item) use ($today, $nextWeek) {
             $itemDate = Carbon::parse($item->date_start);
-            return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek)) && $item->type == 'default';
+            return ($itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek))) && $item->type == 'default';
         })->values()->take(self::BLOCK_MAX_ITEMS);
 
         $upcomingQuizzes = $announcements->filter(function ($item) use ($nextWeek, $today) {

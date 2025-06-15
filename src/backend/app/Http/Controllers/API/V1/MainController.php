@@ -9,6 +9,7 @@ use App\Models\Announcement;
 
 class MainController extends Controller
 {
+    const int ITEMS_PER_PAGE = 12;
     public function index() {
         $eventsData = AnnouncementsDTO::fromCollection(Announcement::active()->get());
 
@@ -20,6 +21,10 @@ class MainController extends Controller
     }
 
     public function quizzes() {
-        return AnnouncementResource::collection(Announcement::active()->quizzes()->paginate(12));
+        return AnnouncementResource::collection(Announcement::active()->quizzes()->paginate(self::ITEMS_PER_PAGE));
+    }
+
+    public function events() {
+        return AnnouncementResource::collection(Announcement::active()->events()->paginate(self::ITEMS_PER_PAGE));
     }
 }

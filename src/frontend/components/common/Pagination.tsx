@@ -59,7 +59,6 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
     return (
         <div className="flex justify-center items-center space-x-2">
-            {/* Кнопка "Назад" */}
             <Button
                 variant="outline"
                 size="icon"
@@ -70,10 +69,8 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 <ChevronLeft className="h-4 w-4" />
             </Button>
 
-            {/* Номера страниц */}
             <div className="flex space-x-1">
                 {pageNumbers.map((pageNumber, index) => {
-                    // Добавляем многоточие, если есть пропуски в последовательности
                     if (index > 0 && pageNumber > pageNumbers[index - 1] + 1) {
                         return (
                             <React.Fragment key={`ellipsis-${pageNumber}`}>
@@ -111,7 +108,6 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 })}
             </div>
 
-            {/* Кнопка "Вперед" */}
             <Button
                 variant="outline"
                 size="icon"

@@ -25,4 +25,8 @@ class Announcement extends Model
     public function scopeQuizzes(Builder $query) {
         $query->where('type', 'quiz');
     }
+
+    public function scopeEvents(Builder $query) {
+        $query->where('type', 'default');
+    }
 }
