@@ -59,7 +59,6 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            next: {revalidate: 60}
         })
 
         if (!response.ok) {
@@ -102,8 +101,7 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-            },
-            next: {revalidate: 60}
+            }
         })
 
         if (!response.ok) {
