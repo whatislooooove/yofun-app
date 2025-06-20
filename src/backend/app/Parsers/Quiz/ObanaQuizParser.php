@@ -11,11 +11,13 @@ use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
 use App\Models\Source;
 use App\Parsers\AbstractParser;
+use App\Traits\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
 #[AllowDynamicProperties] class ObanaQuizParser extends AbstractParser
 {
+    use LoggableCrawler;
     const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/obanaquiz.jpg';
     const string IMAGE_PREFIX = 'https://obana.club/_next/image';
     const string API_URL = 'https://obana.club/api/cities/5/games';
@@ -72,7 +74,7 @@ use Illuminate\Support\Facades\URL;
             $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
             //----
 
-            Announcement::create([
+            $info = Announcement::create([
                 'source_id' => $sourceId,
                 'date_start' => $preparedAiData['dateTime'],
                 'id_in_source' => $targetData['id_in_source'],
@@ -89,6 +91,8 @@ use Illuminate\Support\Facades\URL;
                     'franchise' => self::FRANCHISE_NAME
                 ]
             ]);
+
+            $this->setSavedAnnouncements($info);
         }
     }
 }

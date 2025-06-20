@@ -11,18 +11,20 @@ use App\Enums\Prompts;
 use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
 use App\Models\Source;
+use App\Traits\LoggableCrawler;
 use Illuminate\Support\Carbon;
 use VK\Client\VKApiClient;
 
 #[AllowDynamicProperties] class VKParser extends AbstractParser
 {
+    use LoggableCrawler;
     private array $posts;
     private Source $source;
     public function __construct(string $url)
     {
         //TODO: если будет много манипуляций с урлами, вынести в отдельный хелпер
         $this->vkApi = new VKApiClient();
-        $this->url = ltrim(parse_url($url)['path'], '/');
+        $this->url = $url;
         $this->posts = [];
         $this->source = Source::where('url', $url)->first();
         if (is_array($this->source['extra']) && !array_key_exists('groupId', $this->source['extra']) || !$this->source['extra']) {
@@ -76,7 +78,7 @@ use VK\Client\VKApiClient;
                 continue;
             }
 
-            Announcement::updateOrCreate([
+            $info = Announcement::updateOrCreate([
                 'source_id' => $this->source->id,
                 'date_start' => $preparedAiData['dateTime'],
             ],[
@@ -99,16 +101,16 @@ use VK\Client\VKApiClient;
                     'sourceText' => $post['text']
                 ]
             ]);
-        }
 
-        echo '\'' . $this->url . '\' - parsing is done.' . PHP_EOL;
+            $this->setSavedAnnouncements($info);
+        }
     }
 
     private function getGroupId(): int {
         $response = $this->vkApi
             ->utils()
             ->resolveScreenName(env('VK_API_ACCESS_TOKEN'), [
-                    'screen_name' => $this->url
+                    'screen_name' => ltrim(parse_url($this->url)['path'], '/')
                 ]
             );
 

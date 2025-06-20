@@ -11,10 +11,12 @@ use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
 use App\Models\Source;
 use App\Parsers\AbstractParser;
+use App\Traits\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 
 #[AllowDynamicProperties] class AlbertPartyParser extends AbstractParser
 {
+    use LoggableCrawler;
     const string DOMAIN = 'https://yo.albertparty.ru';
     const string FRANCHISE_NAME = 'AlbertParty (WowQuiz)';
     protected string $url;
@@ -86,7 +88,7 @@ use Illuminate\Support\Facades\Http;
                 $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
                 //----
 
-                Announcement::create([
+                $info = Announcement::create([
                     'source_id' => $this->source->id,
                     'date_start' => $preparedAiData['dateTime'],
                     'id_in_source' => $resultData['id_in_source'],
@@ -103,6 +105,8 @@ use Illuminate\Support\Facades\Http;
                         'franchise' => self::FRANCHISE_NAME
                     ]
                 ]);
+
+                $this->setSavedAnnouncements($info);
             }
         }
     }

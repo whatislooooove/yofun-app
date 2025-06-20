@@ -8,7 +8,6 @@ use Illuminate\Console\Command;
 
 class ParseSource extends Command
 {
-    const PARSE_ALL_MESSAGE = 'Start parsing all resources';
     /**
      * The name and signature of the console command.
      *
@@ -39,10 +38,12 @@ class ParseSource extends Command
 
         foreach ($sources as $key => $source) {
             if (($choice == $key) || ($choice == $all)) {
+                $this->line('Parsing ' . $key . '...');
                 SourceHelper::parseSource(source: $source, keyUrl: $key);
+                $this->line('done!');
             }
         }
 
-        $this->info('Done');
+        $this->info('All sources was scrapped');
     }
 }

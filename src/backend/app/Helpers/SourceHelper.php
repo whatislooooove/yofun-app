@@ -13,7 +13,6 @@ final class SourceHelper
             return self::SOURCE_EXIST_MESSAGE;
         }
 
-
         Source::create([
             'url' => $url,
             'parser' => $parser,
@@ -24,8 +23,6 @@ final class SourceHelper
     }
 
     public static function parseSource(Source $source, string $keyUrl): void {
-        echo 'Parsing ' . $keyUrl . '...' . PHP_EOL;
-
         $parserName = $source['parser'];
         $parser = new $parserName($keyUrl);
         $parser->run();

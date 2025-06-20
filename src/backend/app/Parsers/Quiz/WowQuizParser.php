@@ -11,11 +11,13 @@ use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
 use App\Models\Source;
 use App\Parsers\AbstractParser;
+use App\Traits\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
 #[AllowDynamicProperties] class WowQuizParser extends AbstractParser
 {
+    use LoggableCrawler;
     const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/wowquiz.jpg';
     const string API_URL = 'https://api.etowow.ru/games/all';
     const string DETAIL_PAGE = 'https://yo.wowquiz.ru/schedule';
@@ -74,7 +76,7 @@ use Illuminate\Support\Facades\URL;
             $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
             //----
 
-            Announcement::create([
+            $info = Announcement::create([
                 'source_id' => $sourceId,
                 'date_start' => $preparedAiData['dateTime'],
                 'id_in_source' => $targetData['id_in_source'],
@@ -91,6 +93,8 @@ use Illuminate\Support\Facades\URL;
                     'franchise' => self::FRANCHISE_NAME
                 ]
             ]);
+
+            $this->setSavedAnnouncements($info);
         }
     }
 }
