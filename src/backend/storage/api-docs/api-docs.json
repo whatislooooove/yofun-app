@@ -1,0 +1,193 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "yofun API Doc",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1": {
+            "get": {
+                "tags": [
+                    "main"
+                ],
+                "summary": "Get data for index page",
+                "operationId": "c539e73d9c100a0c5c59fcb2f248c237",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "sliderEvents": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        },
+                                        "upcomingEvents": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        },
+                                        "upcomingQuizzes": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/quizzes": {
+            "get": {
+                "tags": [
+                    "main"
+                ],
+                "summary": "Get all quizzes",
+                "operationId": "e8a92707e6100fa487554abd97a051f9",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Get items in target page",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/events": {
+            "get": {
+                "tags": [
+                    "main"
+                ],
+                "summary": "Get all events",
+                "operationId": "2b99e347197fb5826c0b5dc6750cab34",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Get items in target page",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AnnouncementResource": {
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Трибьютный концерт"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Описание трибьютного концерта"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "example": "example.com"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2025-06-21"
+                    },
+                    "time": {
+                        "type": "string",
+                        "example": "20:00"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "паб Бульдог"
+                    },
+                    "price": {
+                        "type": "number",
+                        "example": "1500"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "концерты"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "example.com/image.png"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "main",
+            "description": "main"
+        }
+    ]
+}
