@@ -1,5 +1,8 @@
 <?php
 
+use App\Console\Commands\Announcements\ActualizeAnnouncements;
+use App\Console\Commands\Sources\ParseSource;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,4 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command(ActualizeAnnouncements::class)->name('Actualize data')->daily();
+        $schedule->command(ParseSource::class, ['--all'])->name('Main crawlers')->daily();
+    })
+    ->create();
