@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckSwaggerAccess;
+
 return [
     'default' => 'default',
     'documentations' => [
@@ -65,7 +67,10 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
              */
             'middleware' => [
-                'api' => [],
+                'api' => [
+                    'web',
+                    CheckSwaggerAccess::class
+                ],
                 'asset' => [],
                 'docs' => [],
                 'oauth2_callback' => [],
