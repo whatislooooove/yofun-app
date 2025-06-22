@@ -13,6 +13,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "moonshine/moonshine": "^3.14",
+        "moonshine/ru": "^1.0",
         "softcreatr/php-mistral-ai-sdk": "^2.0",
         "symfony/filesystem": "^7.2",
         "twbs/bootstrap": "5.0.2",
