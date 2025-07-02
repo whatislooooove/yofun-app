@@ -49,7 +49,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
-      <Header />
+      <Header todayEventsCount={indexData.meta.todayEvents} />
       <main>
           {isNoEvent ? (<EmptyState />) : (
               <>
@@ -58,7 +58,7 @@ export default async function HomePage() {
                   <PopularQuizzes quizzes={indexData.upcomingQuizzes} />
               </>)}
       </main>
-      <Footer />
+      <Footer totalEventsCount={indexData.meta.totalEvents} />
     </div>
   )
 }

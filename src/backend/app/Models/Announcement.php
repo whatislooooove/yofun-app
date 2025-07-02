@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\CustomizableModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Announcement extends Model
 {
+    use CustomizableModel;
     protected $guarded = [];
 
     protected $casts = [

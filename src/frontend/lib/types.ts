@@ -22,3 +22,8 @@ export interface Quiz {
   price: number
   image: string
 }
+
+export interface Meta {
+  todayEvents: number,
+  totalEvents: number,
+}

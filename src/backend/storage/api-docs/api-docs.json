@@ -2,6 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "yofun API Doc",
+        "description": "Description about simple API methods in yofun project",
         "version": "1.0.0"
     },
     "paths": {
@@ -124,6 +125,37 @@
                                         "meta": {
                                             "type": "array",
                                             "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/static": {
+            "get": {
+                "tags": [
+                    "main"
+                ],
+                "summary": "Get static data",
+                "operationId": "502aeb166655b673c1eb2352be582d85",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "todayCount": {
+                                            "type": "integer",
+                                            "example": 4
+                                        },
+                                        "totalCount": {
+                                            "type": "integer",
+                                            "example": 23
                                         }
                                     },
                                     "type": "object"

@@ -8,7 +8,11 @@ use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
 use OpenApi\Attributes as OA;
 
-#[OA\Info(version: "1.0.0", title: "yofun API Doc")]
+#[OA\Info(
+    version: "1.0.0",
+    description: "Description about simple API methods in yofun project",
+    title: "yofun API Doc",
+)]
 class MainController extends Controller
 {
     const int ITEMS_PER_PAGE = 12;
@@ -44,12 +48,14 @@ class MainController extends Controller
         ]
     )]
     public function index() {
-        $eventsData = AnnouncementsDTO::fromCollection(Announcement::active()->get());
+        $allActive = Announcement::active()->get();
+        $eventsData = AnnouncementsDTO::fromCollection($allActive);
 
         return response()->json([
             'sliderEvents' => AnnouncementResource::collection($eventsData->sliderEvents),
             'upcomingEvents' => AnnouncementResource::collection($eventsData->upcomingEvents),
             'upcomingQuizzes' => AnnouncementResource::collection($eventsData->upcomingQuizzes),
+            'meta' => $eventsData->meta
         ]);
     }
 
@@ -127,5 +133,29 @@ class MainController extends Controller
     )]
     public function events() {
         return AnnouncementResource::collection(Announcement::active()->events()->paginate(self::ITEMS_PER_PAGE));
+    }
+
+    #[OA\Get(
+        path: '/api/v1/static',
+        summary: 'Get static data',
+        tags: ['main'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'OK',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'todayCount', type: 'integer', example: 4),
+                        new OA\Property(property: 'totalCount', type: 'integer', example: 23),
+                    ]
+                )
+            )
+        ]
+    )]
+    public function static() {
+        return response()->json([
+            'todayEvents' => (new Announcement)->countToday(),
+            'totalEvents' => (new Announcement)->countTotal(),
+        ]);
     }
 }

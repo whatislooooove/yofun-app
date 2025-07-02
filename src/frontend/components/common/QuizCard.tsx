@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { Quiz } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, MapPin, Users, X, Info, Navigation } from "lucide-react"
+import { Calendar, Clock, MapPin, X, Info, Navigation } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -88,7 +88,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
       </CardContent>
 
       <CardFooter>
-        <Button href={quiz.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3" target="_blank">
+        <Button isHref={true} href={quiz.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3" target="_blank">
           Подробнее
         </Button>
       </CardFooter>

@@ -1,4 +1,4 @@
-import type {Event, Quiz} from "./types"
+import type {Event, Quiz, Meta} from "./types"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -6,6 +6,12 @@ export interface IndexData {
     sliderEvents: Event[]
     upcomingEvents: Event[]
     upcomingQuizzes: Quiz[]
+    meta: Meta
+}
+
+export interface StaticData {
+    todayEvents: number
+    totalEvents: number
 }
 
 export interface QueryParams {
@@ -130,4 +136,19 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
         }
     }
 
+}
+
+export async function getStaticData(): Promise<StaticData> {
+    try {
+        const response = await fetch(`${API_BASE_URL}static`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        return await response.json()
+    } catch (error) {
+        console.error('Error:', error)
+    }
 }
