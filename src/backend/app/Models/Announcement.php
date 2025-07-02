@@ -21,7 +21,7 @@ class Announcement extends Model
     }
 
     public function scopeActive(Builder $query) {
-        $query->where('is_active', true);
+        $query->where('is_active', true)->orderBy('date_start', 'ASC');
     }
 
     public function scopeQuizzes(Builder $query) {
