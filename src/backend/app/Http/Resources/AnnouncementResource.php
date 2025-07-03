@@ -43,6 +43,9 @@ class AnnouncementResource extends JsonResource
             'price' => $this->price,
             'category' => $this->type,
             'image' => $this->img,
+            'extra' => $this->when($this->resource->isQuiz(), [
+                'franchise' => data_get($this->extra, 'franchise')
+            ]),
         ];
     }
 }

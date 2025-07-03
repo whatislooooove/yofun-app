@@ -21,6 +21,9 @@ export interface Quiz {
   location: string
   price: number
   image: string
+  extra?: {
+    franchise: string
+  }
 }
 
 export interface Meta {

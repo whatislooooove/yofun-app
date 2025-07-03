@@ -11,4 +11,8 @@ trait CustomizableModel
     public function countTotal(): int {
         return $this->active()->count();
     }
+
+    public function isQuiz(): bool {
+        return $this->type === 'quiz';
+    }
 }

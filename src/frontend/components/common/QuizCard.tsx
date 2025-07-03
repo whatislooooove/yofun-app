@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { Quiz } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, MapPin, X, Info, Navigation } from "lucide-react"
+import { Calendar, Clock, MapPin, X, Info } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -41,9 +41,12 @@ export default function QuizCard({ quiz }: QuizCardProps) {
           style={{ backgroundImage: `url(${quiz.image})` }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+        <div className="absolute bottom-4 left-4 right-4 flex items-center">
           <Badge className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full">Квиз</Badge>
-          <span className="text-white font-bold">{quiz.price} ₽</span>
+          {quiz.extra?.franchise
+              ? (<Badge className="bg-orange-600 hover:bg-orange-700 text-white ml-1 px-3 py-1 rounded-full">{quiz.extra.franchise}</Badge>)
+              : ''}
+          <span className="text-white font-bold ml-auto">{quiz.price} ₽</span>
         </div>
         {/* Кнопка показать описание */}
         <button
@@ -64,12 +67,6 @@ export default function QuizCard({ quiz }: QuizCardProps) {
                 <div className="break-words">{quiz.location}</div>
               </div>
             </div>
-            <Button
-              size="icon"
-              className="w-8 h-8 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-md ml-3 flex-shrink-0"
-            >
-              <Navigation className="w-4 h-4" />
-            </Button>
           </div>
         </CardDescription>
       </CardHeader>

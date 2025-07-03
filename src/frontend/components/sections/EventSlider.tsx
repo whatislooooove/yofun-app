@@ -90,9 +90,6 @@ export default function EventSlider({ events }: EventSliderProps) {
                   <div className="max-w-2xl p-6">
                     {/* Улучшенная контрастность текста */}
                     <div className="flex items-center space-x-2 mb-4">
-                      <Badge className="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-full shadow-lg">
-                        {event.category}
-                      </Badge>
                       <span className="text-lg font-bold text-white drop-shadow-lg">
                         {formatDate(event.date)} | {formatTime(event.time)}
                       </span>

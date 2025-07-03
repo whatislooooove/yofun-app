@@ -1,8 +1,7 @@
 import Link from "next/link"
-import {Calendar, MapPin} from "lucide-react"
-import {Button} from "@/components/ui/button"
+import {Calendar} from "lucide-react"
 import {Badge} from "@/components/ui/badge";
-import {getAllQuizzes, getStaticData} from "@/lib/api";
+import { getStaticData} from "@/lib/api";
 
 export default async function Header({todayEventsCount = false}: {
     todayEventsCount?: number | boolean;
@@ -58,11 +57,6 @@ export default async function Header({todayEventsCount = false}: {
                                 </Badge>
                             </div>
                         )}
-
-                        <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-6">
-                            <MapPin className="w-4 h-4 mr-2"/>
-                            Карта
-                        </Button>
                     </div>
                 </div>
             </div>
