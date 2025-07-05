@@ -4,20 +4,77 @@ import { useState } from "react"
 import type { Quiz } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, MapPin, X, Info } from "lucide-react"
+import { Calendar, Clock, MapPin, X, Info, Coins } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface QuizCardProps {
   quiz: Quiz
 }
+function getEventDateStatus(eventDate: string): "today" | "tomorrow" | "other" {
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const event = new Date(eventDate)
+
+  // Сравниваем только даты, игнорируя время
+  const todayStr = today.toDateString()
+  const tomorrowStr = tomorrow.toDateString()
+  const eventStr = event.toDateString()
+
+  if (eventStr === todayStr) return "today"
+  if (eventStr === tomorrowStr) return "tomorrow"
+  return "other"
+}
 
 export default function QuizCard({ quiz }: QuizCardProps) {
   const [showDescription, setShowDescription] = useState(false)
+  const dateStatus = getEventDateStatus(quiz.date)
+
+  const getBorderStyles = () => {
+    switch (dateStatus) {
+      case "today":
+        return "border-green-400 border-2 shadow-green-400/20 shadow-lg"
+      case "tomorrow":
+        return "border-yellow-400 border-2 shadow-yellow-400/20 shadow-lg"
+      default:
+        return "border-purple-500/20"
+    }
+  }
+
+  const getDateStatusText = () => {
+    switch (dateStatus) {
+      case "today":
+        return "Сегодня!"
+      case "tomorrow":
+        return "Уже завтра!"
+      default:
+        return null
+    }
+  }
+  const getDateStatusColor = () => {
+    switch (dateStatus) {
+      case "today":
+        return "bg-green-500 text-white"
+      case "tomorrow":
+        return "bg-yellow-500 text-black"
+      default:
+        return ""
+    }
+  }
+
+  const statusText = getDateStatusText()
 
   return (
-    <Card className="bg-white/10 backdrop-blur-md border-purple-500/20 overflow-hidden rounded-3xl hover:shadow-lg hover:shadow-purple-500/10 transition-all group h-full flex flex-col relative">
-      {/* Overlay для описания */}
+    <Card className={`bg-white/10 backdrop-blur-md ${getBorderStyles()} overflow-hidden rounded-3xl hover:shadow-lg hover:shadow-purple-500/10 transition-all group h-full flex flex-col relative`}>
+      {statusText && (
+          <div className="absolute top-4 left-4 z-20">
+            <Badge className={`${getDateStatusColor()} px-3 py-1 text-sm font-bold shadow-lg hover:bg-purple-700`}>
+              {statusText}
+            </Badge>
+          </div>
+      )}
       {showDescription && (
         <div className="absolute inset-0 bg-black/90 backdrop-blur-sm z-50 rounded-3xl flex items-center justify-center p-6">
           <div className="text-center">
@@ -46,9 +103,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
           {quiz.extra?.franchise
               ? (<Badge className="bg-orange-600 hover:bg-orange-700 text-white ml-1 px-3 py-1 rounded-full">{quiz.extra.franchise}</Badge>)
               : ''}
-          <span className="text-white font-bold ml-auto">{quiz.price} ₽</span>
         </div>
-        {/* Кнопка показать описание */}
         <button
           onClick={() => setShowDescription(true)}
           className="absolute top-4 right-4 w-8 h-8 bg-purple-600/80 hover:bg-purple-600 rounded-full flex items-center justify-center text-white transition-all"
@@ -81,6 +136,14 @@ export default function QuizCard({ quiz }: QuizCardProps) {
             <Clock className="w-4 h-4 mr-2" />
             <span>{formatTime(quiz.time)}</span>
           </div>
+        </div>
+        <div className="flex items-center text-purple-300">
+          {quiz.price > 100
+              ? (<>
+                <Coins className="w-4 h-4 mr-2 text-yellow-400" />
+                <span className="text-white font-bold">{quiz.price} ₽</span>
+              </>)
+              : <span className="text-white font-bold">Цену уточняйте у организатора</span>}
         </div>
       </CardContent>
 

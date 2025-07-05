@@ -94,7 +94,35 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+    <head>
+      <link rel="icon" href="/favicon.ico" sizes="any"/>
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+      {/*
+          ИНСТРУКЦИЯ ПО ДОБАВЛЕНИЮ ФАВИКОНОВ:
+
+          1. Создайте файлы иконок в папке /public/:
+             - favicon.ico (32x32, для старых браузеров)
+             - favicon-16x16.png
+             - favicon-32x32.png
+             - apple-touch-icon.png (180x180, для iOS)
+             - safari-pinned-tab.svg (векторная иконка для Safari)
+             - og-image.jpg (1200x630, для социальных сетей)
+
+          2. Создайте файлы манифеста:
+             - site.webmanifest (для PWA)
+             - browserconfig.xml (для Windows)
+
+          3. Используйте онлайн генераторы фавиконов:
+             - https://realfavicongenerator.net/
+             - https://favicon.io/
+
+          4. Для создания иконки можете использовать:
+             - Логотип компании
+             - Символ календаря или события
+             - Первую букву названия "C"
+        */}
+    </head>
+    <body>{children}</body>
     </html>
   )
 }

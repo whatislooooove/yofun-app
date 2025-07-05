@@ -2,7 +2,7 @@
 import type { Event } from "@/lib/types"
 import EventCard from "@/components/common/EventCard"
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Calendar } from "lucide-react"
 
 interface TodayEventsProps {
   events: Event[]
@@ -17,7 +17,15 @@ export default function TodayEvents({ events }: TodayEventsProps) {
 
       <div className="container mx-auto px-4 relative z-10 pt-12 mb-12">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Предстоящие мероприятия</h2>
+            <div className="flex items-center space-x-4">
+                <div className="p-3 bg-green-500/20 rounded-2xl">
+                    <Calendar className="w-8 h-8 text-green-400" />
+                </div>
+                <div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Предстоящие мероприятия</h2>
+                    <p className="text-purple-300 mt-2 text-lg">Мероприятия, которые проведутся в скором времени</p>
+                </div>
+            </div>
           <div className="flex items-center space-x-2">
             <span className="text-purple-300 font-medium hidden md:inline">Все мероприятия</span>
             <Button isHref={true} href="/events" variant="ghost" size="icon" className="rounded-full bg-purple-600/20 hover:bg-purple-600/40">

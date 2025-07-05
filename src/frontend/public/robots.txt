@@ -1,0 +1,57 @@
+User-agent: *
+Allow: /
+
+# Основные страницы
+Allow: /
+Allow: /events
+Allow: /quizzes
+Allow: /about
+Allow: /contact
+Allow: /faq
+
+# Статичные страницы
+Allow: /privacy
+Allow: /terms
+
+# Запрещаем индексацию служебных файлов
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /dashboard/
+
+# Разрешаем доступ к изображениям и медиа
+Allow: /images/
+Allow: /icons/
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.webp
+
+# Специальные директивы для Яндекса
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Специальные директивы для Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Запрещаем плохих ботов
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Карта сайта
+Sitemap: https://yofun.ru/sitemap.xml
+
+# Дополнительная информация
+# Host: yofun.ru
+# Контакты: info@yofun.ru

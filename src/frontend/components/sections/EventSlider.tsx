@@ -114,12 +114,6 @@ export default function EventSlider({ events }: EventSliderProps) {
                           <MapPin className="w-5 h-5 text-white" />
                         </div>
                         <span className="text-white drop-shadow-md">{event.location}</span>
-                        <Button
-                          size="icon"
-                          className="w-8 h-8 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-lg"
-                        >
-                          <Navigation className="w-4 h-4" />
-                        </Button>
                       </div>
                     </div>
 
