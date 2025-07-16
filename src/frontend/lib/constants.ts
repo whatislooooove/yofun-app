@@ -2,8 +2,8 @@ export const FOOTER_LINKS = [
   {
     title: "Мероприятия",
     links: [
-      { label: "Все мероприятия", url: "/events/all" },
-      { label: "Квизы", url: "/events/quizzes" },
+      { label: "Все мероприятия", url: "/events" },
+      { label: "Квизы", url: "/quizzes" },
     ],
   },
   {

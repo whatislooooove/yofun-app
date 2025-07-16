@@ -1,13 +1,10 @@
 import Link from "next/link"
-import {Calendar} from "lucide-react"
 import {Badge} from "@/components/ui/badge";
-import {getStaticData, sendFeedback} from "@/lib/api";
+import {getStaticData} from "@/lib/api";
 
 export default async function Header({todayEventsCount = false}: {
     todayEventsCount?: number | boolean;
 }) {
-    // const resp = await sendFeedback([])
-    // console.log(resp)
     const staticData = (todayEventsCount === false) ? (await getStaticData()).todayEvents : todayEventsCount
 
     return (
