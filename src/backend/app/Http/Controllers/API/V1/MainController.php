@@ -9,7 +9,6 @@ use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(
@@ -228,7 +227,7 @@ class MainController extends Controller
     )]
     public function feedback(Request $request) {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'name' => ['required', 'max:255', 'min:2'],
             'email' => ['required', 'email', 'max:255'],
             'subject' => ['required', 'max:255'],
             'message' => ['required', 'max:16384'],
