@@ -165,6 +165,86 @@
                     }
                 }
             }
+        },
+        "/api/v1/feedback": {
+            "post": {
+                "tags": [
+                    "main"
+                ],
+                "summary": "Send feedback",
+                "operationId": "9b4e6fd2bf56c8f8f0f88918ce422e85",
+                "requestBody": {
+                    "description": "Feedback data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "User name (min 2 characters)",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "Valid email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "subject": {
+                                        "description": "Message subject",
+                                        "type": "string",
+                                        "example": "Frontend features"
+                                    },
+                                    "message": {
+                                        "description": "Feedback text content",
+                                        "type": "string",
+                                        "example": "This is my feedback message"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Name must have at least 4 letters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            }
         }
     },
     "components": {

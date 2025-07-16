@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Send, CheckCircle, AlertCircle } from "lucide-react"
+import { Send, CheckCircle, AlertCircle, CircleX } from "lucide-react"
+import {sendFeedback} from "@/lib/api";
 
 interface FormData {
     name: string
@@ -25,6 +26,10 @@ interface FormErrors {
     message?: string
 }
 
+interface ResponseMessage {
+    message: string
+}
+
 export default function ContactForm() {
     const [formData, setFormData] = useState<FormData>({
         name: "",
@@ -37,6 +42,8 @@ export default function ContactForm() {
     const [errors, setErrors] = useState<FormErrors>({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [response] = useState<ResponseMessage>({message: ""})
 
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {}
@@ -57,8 +64,9 @@ export default function ContactForm() {
         }
 
         // Валидация telegram
-        if (formData.telegram.trim() && formData.telegram[0] !== '@') {
-            newErrors.telegram = "Никнейм должен начинаться с символа @"
+        const telegramRegex = /^@?[a-zA-Z0-9_]{5,32}$/
+        if (formData.telegram.trim().length > 0 && !telegramRegex.test(formData.telegram)) {
+            newErrors.telegram = "Некорректный никнейм"
         }
 
         // Валидация темы
@@ -79,23 +87,32 @@ export default function ContactForm() {
         return Object.keys(newErrors).length === 0
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        e.stopPropagation()
 
         if (!validateForm()) {
             return
         }
 
         setIsSubmitting(true)
-
         try {
-            // Здесь будет реальный API запрос
-            await new Promise((resolve) => setTimeout(resolve, 2000)) // Имитация запроса
+            const resp = await sendFeedback(formData)
+            const info = await resp.json()
 
+            response.message = info.message ?? ''
+
+            if (resp.status !== 200) {
+                setIsError(true)
+                return
+            }
             setIsSubmitted(true)
-            setFormData({ name: "", email: "", subject: "", message: "" })
+            setFormData({ name: "", email: "", telegram: "", subject: "", message: "" })
             setErrors({})
         } catch (error) {
+            if (error instanceof Error) {
+                console.log("Stack:", error.message);
+            }
             console.error("Ошибка отправки формы:", error)
         } finally {
             setIsSubmitting(false)
@@ -105,7 +122,6 @@ export default function ContactForm() {
     const handleChange = (field: keyof FormData, value: string) => {
         setFormData((prev) => ({ ...prev, [field]: value }))
 
-        // Очищаем ошибку для поля при изменении
         if (errors[field]) {
             setErrors((prev) => ({ ...prev, [field]: undefined }))
         }
@@ -128,12 +144,30 @@ export default function ContactForm() {
                 </CardContent>
             </Card>
         )
+    } else if (isError) {
+        return (
+            <Card className="p-8 bg-green-50 border-green-200">
+                <CardContent className="p-0 text-center">
+                    <CircleX className="w-16 h-16 text-red-600 mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold mb-2">Сообщение не отправлено</h3>
+                    <p className="text-red-600 mb-6">Произошла внутренняя ошибка</p>
+                    {response.message.length > 0 ? (<p className="text-red-600 mb-6">{response.message}</p>) : ''}
+                    <Button
+                        onClick={() => setIsError(false)}
+                        variant="outline"
+                        className="border-red-500 hover:bg-red-500 hover:text-white"
+                    >
+                        Попробовать еще раз
+                    </Button>
+                </CardContent>
+            </Card>
+        )
     }
 
     return (
         <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
             <CardContent className="p-0">
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-6">
                     {/* Имя */}
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -245,28 +279,27 @@ export default function ContactForm() {
                         )}
                     </div>
 
-                    {/* Кнопка отправки */}
-                    <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3"
-                        isButton={true}
-                    >
-                        {isSubmitting ? (
-                            <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Отправляем...
-                            </>
-                        ) : (
-                            <>
-                                <Send className="w-4 h-4 mr-2" />
-                                Отправить сообщение
-                            </>
-                        )}
-                    </Button>
-
                     <p className="text-sm text-gray-500 text-center">* Обязательные поля для заполнения</p>
-                </form>
+                </div>
+                {/* Кнопка отправки */}
+                <Button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3"
+                    isButton={true}
+                >
+                    {isSubmitting ? (
+                        <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Отправляем...
+                        </>
+                    ) : (
+                        <>
+                            <Send className="w-4 h-4 mr-2" />
+                            Отправить сообщение
+                        </>
+                    )}
+                </Button>
             </CardContent>
         </Card>
     )

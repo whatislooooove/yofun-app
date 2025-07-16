@@ -14,6 +14,10 @@ export interface StaticData {
     totalEvents: number
 }
 
+export interface PostResponse {
+    message: string
+}
+
 export interface QueryParams {
     page?: number
     limit?: number
@@ -151,4 +155,15 @@ export async function getStaticData(): Promise<StaticData> {
     } catch (error) {
         console.error('Error:', error)
     }
+}
+
+export async function sendFeedback(data) {
+     return await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
 }

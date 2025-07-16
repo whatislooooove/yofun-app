@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { Quiz } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, MapPin, X, Info, Coins } from "lucide-react"
+import { Calendar, Clock, MapPin, X, Info, CreditCard } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -140,7 +140,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
         <div className="flex items-center text-purple-300">
           {quiz.price > 100
               ? (<>
-                <Coins className="w-4 h-4 mr-2 text-yellow-400" />
+                <CreditCard className="w-4 h-4 mr-2 text-emerald-400" />
                 <span className="text-white font-bold">{quiz.price} ₽</span>
               </>)
               : <span className="text-white font-bold">Цену уточняйте у организатора</span>}

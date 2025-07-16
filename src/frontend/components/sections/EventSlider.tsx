@@ -1,9 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Sparkles, MapPin, Navigation } from "lucide-react"
+import { ChevronLeft, ChevronRight, Sparkles, MapPin, CreditCard } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import type { Event } from "@/lib/types"
 import { formatDate, formatTime } from "@/lib/utils"
@@ -103,9 +102,7 @@ export default function EventSlider({ events }: EventSliderProps) {
 
                     <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6 mb-6">
                       <div className="flex items-center space-x-2">
-                        <div className="w-10 h-10 bg-purple-600/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                          <span className="text-white font-bold">₽</span>
-                        </div>
+                        <CreditCard className="w-4 h-4 mr-2 text-emerald-400" />
                         <span className="text-white font-bold drop-shadow-md">{event.price} ₽</span>
                       </div>
 

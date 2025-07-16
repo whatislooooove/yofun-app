@@ -12,3 +12,5 @@ Route::get('/', [MainController::class, 'index'])->name('home');
 Route::get('/quizzes', [MainController::class, 'quizzes'])->name('quizzes');
 Route::get('/events', [MainController::class, 'events'])->name('events');
 Route::get('/static', [MainController::class, 'static'])->name('static');
+
+Route::post('/feedback', [MainController::class, 'feedback'])->name('feedback');
