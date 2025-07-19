@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import {getAllEvents} from "@/lib/api";
@@ -18,7 +19,7 @@ interface EventsPageProps {
     }
 }
 
-export default async function EventsPage({ searchParams }): Promise<EventsPageProps> {
+export default async function EventsPage({ searchParams }: EventsPageProps) {
     const currentPage = Number(searchParams.page) || 1
     const { events, meta } = await getAllEvents({
         page: currentPage,

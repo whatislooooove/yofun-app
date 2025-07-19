@@ -1,4 +1,4 @@
-import type {Event, Quiz, Meta} from "./types"
+import type {Event, Quiz, Meta, DefaultMeta} from "./types"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -30,6 +30,7 @@ export interface QuizzesResponse {
         totalItems: number
         currentPage: number
     }
+    meta: DefaultMeta
 }
 
 export interface EventsResponse {
@@ -39,9 +40,13 @@ export interface EventsResponse {
         totalItems: number
         currentPage: number
     }
+    meta: DefaultMeta
 }
 
 export async function getIndexData(): Promise<IndexData> {
+    if (!API_BASE_URL) {
+        throw new Error('API_BASE_URL is not defined');
+    }
     try {
         const response = await fetch(API_BASE_URL, {
             method: 'GET',
@@ -53,6 +58,15 @@ export async function getIndexData(): Promise<IndexData> {
         return await response.json()
     } catch (error) {
         console.error('Error:', error)
+        return {
+            meta: {
+                todayEvents: 0,
+                totalEvents: 0
+            },
+            sliderEvents: [],
+            upcomingEvents: [],
+            upcomingQuizzes: [],
+        };
     }
 }
 
@@ -78,6 +92,7 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
         const data = await response.json()
 
         return {
+            paginationMeta: {currentPage: 0, totalItems: 0, totalPages: 0},
             quizzes: data.data,
             meta: {
                 totalPages: data.meta.last_page,
@@ -88,6 +103,7 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
     } catch (error) {
         console.error('Error fetching quizzes:', error)
         return {
+            paginationMeta: {currentPage: 0, totalItems: 0, totalPages: 0},
             quizzes: [],
             meta: {
                 totalPages: 0,
@@ -121,6 +137,7 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
         const data = await response.json()
 
         return {
+            paginationMeta: {currentPage: 0, totalItems: 0, totalPages: 0},
             events: data.data,
             meta: {
                 totalPages: data.meta.last_page,
@@ -131,6 +148,7 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
     } catch (error) {
         console.error('Error fetching events:', error)
         return {
+            paginationMeta: {currentPage: 0, totalItems: 0, totalPages: 0},
             events: [],
             meta: {
                 totalPages: 0,
@@ -154,16 +172,20 @@ export async function getStaticData(): Promise<StaticData> {
         return await response.json()
     } catch (error) {
         console.error('Error:', error)
+        return {
+            todayEvents: 0,
+            totalEvents: 0
+        }
     }
 }
 
-export async function sendFeedback(data) {
+export async function sendFeedback(data: FormData) {
      return await fetch('/api/feedback', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: data
     })
 }

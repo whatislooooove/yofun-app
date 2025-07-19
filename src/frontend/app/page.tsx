@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Header from "@/components/sections/Header"
 import EventSlider from "@/components/sections/EventSlider"
 import TodayEvents from "@/components/sections/TodayEvents"

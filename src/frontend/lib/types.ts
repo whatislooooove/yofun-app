@@ -30,3 +30,9 @@ export interface Meta {
   todayEvents: number,
   totalEvents: number,
 }
+
+export interface DefaultMeta {
+  totalPages: number,
+  totalItems: number,
+  currentPage: number
+}

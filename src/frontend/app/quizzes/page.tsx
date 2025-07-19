@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import {getAllQuizzes} from "@/lib/api";
@@ -18,7 +19,7 @@ interface QuizzesPageProps {
     }
 }
 
-export default async function QuizzesPage({ searchParams }): Promise<QuizzesPageProps> {
+export default async function QuizzesPage({ searchParams }: QuizzesPageProps) {
     const currentPage = Number(searchParams.page) || 1
     const { quizzes, meta } = await getAllQuizzes({
         page: currentPage,

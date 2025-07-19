@@ -23,7 +23,7 @@ export default function PopularQuizzes({ quizzes }: PopularQuizzesProps) {
             </div>
           <div className="flex items-center space-x-2">
             <span className="text-purple-300 font-medium hidden md:inline">Все квизы</span>
-            <Button isHref={true} href="/quizzes" variant="ghost" size="icon" className="rounded-full bg-purple-600/20 hover:bg-purple-600/40">
+            <Button isHref={true} ref="/quizzes" variant="ghost" size="icon" className="rounded-full bg-purple-600/20 hover:bg-purple-600/40">
               <ChevronRight className="h-5 w-5 text-purple-300" />
             </Button>
           </div>

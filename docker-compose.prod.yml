@@ -1,0 +1,58 @@
+services:
+  api:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    container_name: backend
+    working_dir: /var/www
+    volumes:
+      - ./src/backend:/var/www
+    networks:
+      - default-network
+
+  web-production:
+    build:
+      context: .
+      dockerfile: ./docker/node/prod/Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+    networks:
+      - default-network
+    depends_on:
+      - api
+
+  db:
+    image: postgres:17-bookworm
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: mari-fun
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - default-network
+  server:
+    image: nginx:alpine3.20
+    container_name: server-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/backend:/var/www
+      - ./docker/common/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/common/nginx/logs:/var/log/nginx
+    networks:
+      - default-network
+
+networks:
+  default-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

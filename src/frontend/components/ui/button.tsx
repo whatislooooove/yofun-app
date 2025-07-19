@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -42,14 +41,27 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, asChild = false, isHref = false, ...props }, ref) => {
-        const Comp = isHref ? 'a' : 'button'
-        return (
-            <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref}
-                {...props}
-            />
-        )
+        if (isHref) {
+            const { href, target = "_blank", ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+            return (
+                <a
+                    className={cn(buttonVariants({ variant, size, className }))}
+                    ref={ref as React.Ref<HTMLAnchorElement>}
+                    href={href}
+                    target={target}
+                    {...rest}
+                />
+            );
+        } else {
+            const {...rest} = props as React.ButtonHTMLAttributes<HTMLButtonElement>;
+            return (
+                <button
+                    className={cn(buttonVariants({variant, size, className}))}
+                    ref={ref as React.Ref<HTMLButtonElement>}
+                    {...rest}
+                />
+            );
+        }
     }
 )
 Button.displayName = "Button"

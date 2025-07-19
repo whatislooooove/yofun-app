@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Send, CheckCircle, AlertCircle, CircleX } from "lucide-react"
+import { Send, CheckCircle, AlertCircle, Circle } from "lucide-react"
 import {sendFeedback} from "@/lib/api";
 
 interface FormData {
@@ -87,7 +87,7 @@ export default function ContactForm() {
         return Object.keys(newErrors).length === 0
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         e.stopPropagation()
 
@@ -97,7 +97,9 @@ export default function ContactForm() {
 
         setIsSubmitting(true)
         try {
-            const resp = await sendFeedback(formData)
+            const formDataPrepared = new FormData(e.currentTarget as HTMLFormElement);
+
+            const resp = await sendFeedback(formDataPrepared)
             const info = await resp.json()
 
             response.message = info.message ?? ''
@@ -148,7 +150,7 @@ export default function ContactForm() {
         return (
             <Card className="p-8 bg-green-50 border-green-200">
                 <CardContent className="p-0 text-center">
-                    <CircleX className="w-16 h-16 text-red-600 mx-auto mb-4" />
+                    <Circle className="w-16 h-16 text-red-600 mx-auto mb-4" />
                     <h3 className="text-2xl font-bold mb-2">Сообщение не отправлено</h3>
                     <p className="text-red-600 mb-6">Произошла внутренняя ошибка</p>
                     {response.message.length > 0 ? (<p className="text-red-600 mb-6">{response.message}</p>) : ''}
@@ -286,7 +288,6 @@ export default function ContactForm() {
                     onClick={handleSubmit}
                     disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3"
-                    isButton={true}
                 >
                     {isSubmitting ? (
                         <>

@@ -148,7 +148,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
       </CardContent>
 
       <CardFooter>
-        <Button isHref={true} href={quiz.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3" target="_blank">
+        <Button isHref={true} ref={quiz.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3">
           Подробнее
         </Button>
       </CardFooter>

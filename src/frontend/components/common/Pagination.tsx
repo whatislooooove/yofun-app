@@ -17,7 +17,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
     // Функция для создания URL с новой страницей
     const createPageURL = (pageNumber: number) => {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams.toString())
         params.set("page", pageNumber.toString())
         return `${pathname}?${params.toString()}`
     }

@@ -141,7 +141,7 @@ export default function EventCard({ event }: EventCardProps) {
       </CardContent>
 
       <CardFooter className="pt-0 mt-auto">
-        <Button isHref={true} href={event.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3" target="_blank">Подробнее</Button>
+        <Button isHref={true} ref={event.detail} className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3">Подробнее</Button>
       </CardFooter>
     </Card>
   )
