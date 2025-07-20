@@ -15,7 +15,7 @@ RUN npm ci --only=production && npm cache clean --force
 COPY src/frontend/ .
 
 # Собираем приложение для продакшена
-RUN npm run build
+RUN npm run build --debug
 
 # Создаем финальный образ
 FROM node:18-alpine AS production

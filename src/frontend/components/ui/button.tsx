@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -37,16 +39,15 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean,
   isHref?: boolean,
+    href?: string
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, isHref = false, ...props }, ref) => {
+const Button = ({ className, variant, size, asChild = false, isHref = false, href, ...props }: ButtonProps) => {
         if (isHref) {
             const { href, target = "_blank", ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
             return (
                 <a
                     className={cn(buttonVariants({ variant, size, className }))}
-                    ref={ref as React.Ref<HTMLAnchorElement>}
                     href={href}
                     target={target}
                     {...rest}
@@ -57,13 +58,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             return (
                 <button
                     className={cn(buttonVariants({variant, size, className}))}
-                    ref={ref as React.Ref<HTMLButtonElement>}
                     {...rest}
                 />
             );
         }
     }
-)
 Button.displayName = "Button"
 
 export { Button, buttonVariants }

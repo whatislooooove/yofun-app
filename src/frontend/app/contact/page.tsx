@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Header from "@/components/sections/Header"
 import Footer from "@/components/sections/Footer"
 import ContactForm from "@/components/forms/ContactForm"
-import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { Mail } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata: Metadata = {

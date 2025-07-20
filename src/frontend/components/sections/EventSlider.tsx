@@ -115,7 +115,7 @@ export default function EventSlider({ events }: EventSliderProps) {
                     </div>
 
                     <div className="mt-8">
-                      <Button isHref={true} ref={event.detail} className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 shadow-lg">
+                      <Button isHref={true} href={event.detail} className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 shadow-lg">
                         Подробнее
                       </Button>
                     </div>
