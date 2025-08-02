@@ -2,6 +2,12 @@
 const nextConfig = {
   // Включаем standalone режим для Docker
   output: 'standalone',
+  experimental: {
+    // Отключаем оптимизацию CSS которая может ломать стили
+    optimizeCss: false,
+    // Включаем правильную обработку статических файлов
+    outputFileTracingRoot: process.cwd(),
+  },
 
   // Оптимизация для продакшена
   compress: true,
@@ -16,11 +22,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-  },
-
-  // Переменные окружения
-  env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
 
   // Настройки для API routes
@@ -51,16 +52,26 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; style-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data: https:; connect-src 'self' https:;",
+          },
+        ],
+      },
+      {
+        source: '/_next/static/css/(.*)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
       },
     ]
-  },
-
-  // Отладка для поиска ошибок
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
   },
 
   // ESLint и TypeScript настройки
