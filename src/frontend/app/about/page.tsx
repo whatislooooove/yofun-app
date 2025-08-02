@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
             <Header />

@@ -1,11 +1,11 @@
-import type { Metadata } from "next"
+import type {Metadata} from "next"
 import Header from "@/components/sections/Header"
 import EventSlider from "@/components/sections/EventSlider"
 import TodayEvents from "@/components/sections/TodayEvents"
 import PopularQuizzes from "@/components/sections/PopularQuizzes"
 import EmptyState from "@/components/sections/EmptyState"
 import Footer from "@/components/sections/Footer"
-import { getIndexData } from "@/lib/api"
+import {getIndexData} from "@/lib/api"
 
 export const metadata: Metadata = {
     title: "Афиша уникальных мероприятий в Йошкар-Оле - малоизвестные события и мероприятия в нашем городе",
@@ -41,25 +41,26 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-   const indexData = await getIndexData()
+    console.log('home')
+    const indexData = await getIndexData()
 
     const hasSliderEvents = indexData.sliderEvents && indexData.sliderEvents.length > 0
     const hasUpcomingEvents = indexData.upcomingEvents && indexData.upcomingEvents.length > 0
     const hasUpcomingQuizzes = indexData.upcomingQuizzes && indexData.upcomingQuizzes.length > 0
     const isNoEvent = (!hasSliderEvents && !hasUpcomingEvents && !hasUpcomingQuizzes)
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
-      <Header todayEventsCount={indexData.meta.todayEvents} />
-      <main>
-          {isNoEvent ? (<EmptyState />) : (
-              <>
-                  <EventSlider events={indexData.sliderEvents} />
-                  <TodayEvents events={indexData.upcomingEvents} />
-                  <PopularQuizzes quizzes={indexData.upcomingQuizzes} />
-              </>)}
-      </main>
-      <Footer totalEventsCount={indexData.meta.totalEvents} />
-    </div>
-  )
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
+            <Header todayEventsCount={indexData.meta.todayEvents}/>
+            <main>
+                {isNoEvent ? (<EmptyState/>) : (
+                    <>
+                        <EventSlider events={indexData.sliderEvents}/>
+                        <TodayEvents events={indexData.upcomingEvents}/>
+                        <PopularQuizzes quizzes={indexData.upcomingQuizzes}/>
+                    </>)}
+            </main>
+            <Footer totalEventsCount={indexData.meta.totalEvents}/>
+        </div>
+    )
 }

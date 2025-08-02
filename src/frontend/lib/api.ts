@@ -44,6 +44,7 @@ export interface EventsResponse {
 }
 
 export async function getIndexData(): Promise<IndexData> {
+    console.log('getting data')
     if (!API_BASE_URL) {
         throw new Error('API_BASE_URL is not defined');
     }
@@ -77,7 +78,7 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
     try {
         const queryParams = new URLSearchParams()
         queryParams.append('page', page.toString())
-        const response = await fetch(`${API_BASE_URL}quizzes?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/quizzes?${queryParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
     try {
         const queryParams = new URLSearchParams()
         queryParams.append('page', page.toString())
-        const response = await fetch(`${API_BASE_URL}events?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/events?${queryParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,14 +163,19 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
 
 export async function getStaticData(): Promise<StaticData> {
     try {
-        const response = await fetch(`${API_BASE_URL}static`, {
+        const response = await fetch(`${API_BASE_URL}/static`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         })
-        return await response.json()
+        const data = await response.json()
+
+        return {
+            todayEvents: data.todayEvents,
+            totalEvents: data.totalEvents
+        }
     } catch (error) {
         console.error('Error:', error)
         return {

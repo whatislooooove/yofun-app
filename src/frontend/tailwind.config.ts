@@ -142,7 +142,14 @@ const config: Config = {
 			},
 		},
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [(() => {
+		try {
+			return require("tailwindcss-animate")
+		} catch (error) {
+			console.warn("⚠️ tailwindcss-animate не найден, пропускаем...")
+			return () => {}
+		}
+	})(),],
 }
 
 export default config

@@ -2,12 +2,24 @@
 const nextConfig = {
   // Включаем standalone режим для Docker
   output: 'standalone',
+  compiler: {
+    // Управление console.log в production
+    removeConsole: false,
+  },
   experimental: {
     // Отключаем оптимизацию CSS которая может ломать стили
     optimizeCss: false,
     // Включаем правильную обработку статических файлов
     outputFileTracingRoot: process.cwd(),
+    logging: {
+      level: 'verbose',
+      fetches: {
+        fullUrl: true,
+      },
+    },
   },
+
+  productionBrowserSourceMaps: true,
 
   // Оптимизация для продакшена
   compress: true,
@@ -22,16 +34,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-  },
-
-  // Настройки для API routes
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ]
   },
 
   // Настройки безопасности
