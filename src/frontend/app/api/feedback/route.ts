@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
     try {
         // Отправляем запрос на внешний API сервер, 422 не обрабатывает почему то, надо выяснить
-        const response = await fetch(`${API_BASE_URL}feedback`, {
+        const response = await fetch(`${API_BASE_URL}/feedback`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

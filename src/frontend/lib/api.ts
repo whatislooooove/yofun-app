@@ -185,13 +185,13 @@ export async function getStaticData(): Promise<StaticData> {
     }
 }
 
-export async function sendFeedback(data: FormData) {
+export async function sendFeedback(data) {
      return await fetch('/api/feedback', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        body: data
+        body: JSON.stringify(data)
     })
 }

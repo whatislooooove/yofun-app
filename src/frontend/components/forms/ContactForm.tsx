@@ -87,9 +87,8 @@ export default function ContactForm() {
         return Object.keys(newErrors).length === 0
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        e.stopPropagation()
 
         if (!validateForm()) {
             return
@@ -97,9 +96,9 @@ export default function ContactForm() {
 
         setIsSubmitting(true)
         try {
-            const formDataPrepared = new FormData(e.currentTarget as HTMLFormElement);
-
-            const resp = await sendFeedback(formDataPrepared)
+            // const formDataPrepared = new FormData(e.currentTarget.closest('div').firstElementChild as HTMLFormElement);
+            // console.log(formDataPrepared)
+            const resp = await sendFeedback(formData)
             const info = await resp.json()
 
             response.message = info.message ?? ''
@@ -169,7 +168,7 @@ export default function ContactForm() {
     return (
         <Card className="p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
             <CardContent className="p-0">
-                <div className="space-y-6">
+                <form className="space-y-6">
                     {/* Имя */}
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -282,7 +281,7 @@ export default function ContactForm() {
                     </div>
 
                     <p className="text-sm text-gray-500 text-center">* Обязательные поля для заполнения</p>
-                </div>
+                </form>
                 {/* Кнопка отправки */}
                 <Button
                     onClick={handleSubmit}
