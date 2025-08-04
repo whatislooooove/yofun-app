@@ -44,10 +44,10 @@ export interface ButtonProps
 
 const Button = ({ className, variant, size, asChild = false, isHref = false, href, ...props }: ButtonProps) => {
         if (isHref) {
-            const { href, target = "_blank", ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+            const {target = "_blank", ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
             return (
                 <a
-                    className={cn(buttonVariants({ variant, size, className }))}
+                    className={cn(buttonVariants({ variant, size, className, href }))}
                     href={href}
                     target={target}
                     {...rest}

@@ -96,8 +96,6 @@ export default function ContactForm() {
 
         setIsSubmitting(true)
         try {
-            // const formDataPrepared = new FormData(e.currentTarget.closest('div').firstElementChild as HTMLFormElement);
-            // console.log(formDataPrepared)
             const resp = await sendFeedback(formData)
             const info = await resp.json()
 
