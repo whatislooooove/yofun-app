@@ -87,7 +87,7 @@ export default function ContactForm() {
         return Object.keys(newErrors).length === 0
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
 
         if (!validateForm()) {
