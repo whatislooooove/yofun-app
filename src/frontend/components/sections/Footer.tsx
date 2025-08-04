@@ -37,8 +37,8 @@ export default async function Footer({totalEventsCount = false}: {
             <div>
               <div className="flex items-center space-x-2 mb-6">
                 <div
-                    className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                  <img src="/logo.png" alt="Логотип сайта"/>
+                    className="w-20 from-purple-600 to-pink-600 flex items-center justify-center">
+                  <img src="/logo.svg" alt="Логотип сайта"/>
                 </div>
                 <span className="text-white text-xl font-bold">yofun</span>
               </div>
