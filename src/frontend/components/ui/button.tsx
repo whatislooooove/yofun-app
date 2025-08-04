@@ -47,7 +47,7 @@ const Button = ({ className, variant, size, asChild = false, isHref = false, hre
             const {target = "_blank", ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
             return (
                 <a
-                    className={cn(buttonVariants({ variant, size, className, href }))}
+                    className={cn(buttonVariants({ variant, size, className }))}
                     href={href}
                     target={target}
                     {...rest}
