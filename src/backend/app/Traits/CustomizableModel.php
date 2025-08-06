@@ -5,7 +5,9 @@ namespace app\Traits;
 trait CustomizableModel
 {
     public function countToday(): int {
-        return $this->whereDate('date_start', today())->count();
+        return $this->whereDate('date_start', today())
+            ->where('date_start', '>=', now())
+            ->count();
     }
 
     public function countTotal(): int {

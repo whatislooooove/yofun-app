@@ -41,7 +41,6 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-    console.log('home')
     const indexData = await getIndexData()
 
     const hasSliderEvents = indexData.sliderEvents && indexData.sliderEvents.length > 0
