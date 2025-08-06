@@ -1,10 +1,18 @@
 import Link from "next/link"
 import {Badge} from "@/components/ui/badge";
 import {getStaticData} from "@/lib/api";
+import MobileMenuClient from "@/components/common/MobileMenuClient";
 
 export default async function Header({todayEventsCount = false}: {
     todayEventsCount?: number | boolean;
 }) {
+    const navigationLinks = [
+        { href: "/events", label: "Мероприятия", description: "Концерты, выставки, шоу" },
+        { href: "/quizzes", label: "Квизы", description: "Интеллектуальные игры" },
+        { href: "/about", label: "О нас", description: "История и команда" },
+        { href: "/contact", label: "Контакты", description: "Связаться с нами" },
+    ]
+
     const staticData = (todayEventsCount === false) ? (await getStaticData()).todayEvents : todayEventsCount
 
     return (
@@ -56,6 +64,9 @@ export default async function Header({todayEventsCount = false}: {
                                 </Badge>
                             </div>
                         )}
+                    </div>
+                    <div className="md:hidden">
+                        <MobileMenuClient navItems={navigationLinks} />
                     </div>
                 </div>
             </div>

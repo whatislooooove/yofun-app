@@ -76,21 +76,21 @@ export default async function Footer({totalEventsCount = false}: {
                 </div>
             ))}
 
-            <div>
-              <h3 className="text-white font-bold mb-6">Подписка на новости</h3>
-              <p className="text-purple-300 mb-4">Будьте в курсе новых мероприятий и специальных предложений</p>
-              <div className="flex space-x-2">
-                <Input
-                    placeholder="Ваш email"
-                    className="bg-white/10 border-purple-500/30 text-white placeholder:text-purple-300 rounded-xl"
-                />
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl">OK</Button>
-              </div>
-            </div>
+            {/*<div>*/}
+            {/*  <h3 className="text-white font-bold mb-6">Подписка на новости</h3>*/}
+            {/*  <p className="text-purple-300 mb-4">Будьте в курсе новых мероприятий и специальных предложений</p>*/}
+            {/*  <div className="flex space-x-2">*/}
+            {/*    <Input*/}
+            {/*        placeholder="Ваш email"*/}
+            {/*        className="bg-white/10 border-purple-500/30 text-white placeholder:text-purple-300 rounded-xl"*/}
+            {/*    />*/}
+            {/*    <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl">OK</Button>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
           </div>
 
           <div className="border-t border-purple-800/30 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-purple-400 text-sm mb-4 md:mb-0">© 2025 yofun. Все права защищены.</p>
+            <p className="text-purple-400 text-sm mb-4 md:mb-0">© {new Date().getFullYear()} yofun. Все права защищены.</p>
             <p className="text-purple-500 text-sm mb-4 md:mb-0">{staticData === 0
                 ? ''
                 : 'Всего в нашей базе ' + staticData + ' актуальных мероприятий'}</p>

@@ -9,11 +9,11 @@ services:
     networks:
       - default-network
 
-  web:
+  web-prod:
     build:
       context: .
       dockerfile: ./docker/node/prod/Dockerfile
-    container_name: frontend
+    container_name: frontend-prod
     ports:
       - "3000:3000"
     environment:
