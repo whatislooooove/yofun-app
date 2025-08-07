@@ -53,8 +53,11 @@ export async function getIndexData(): Promise<IndexData> {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                'Pragma': 'no-cache'
+            },
+            cache: 'no-store'
         })
         return await response.json()
     } catch (error) {
@@ -82,8 +85,11 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                'Pragma': 'no-cache'
             },
+            cache: 'no-store'
         })
 
         if (!response.ok) {
@@ -127,8 +133,11 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                'Pragma': 'no-cache'
+            },
+            cache: 'no-store'
         })
 
         if (!response.ok) {
@@ -168,7 +177,8 @@ export async function getStaticData(): Promise<StaticData> {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-            }
+            },
+            cache: 'no-store'
         })
         const data = await response.json()
 
@@ -192,6 +202,7 @@ export async function sendFeedback(data: any) {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
+        cache: 'no-store',
         body: JSON.stringify(data)
     })
 }

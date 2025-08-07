@@ -144,6 +144,7 @@ yofun/
   docker compose -f docker-compose.prod.yml php artisan migrate
   docker compose -f docker-compose.prod.yml php artisan key:generate
   docker compose -f docker-compose.prod.yml php artisan storage:link
+  docker compose -f docker-compose.prod.yml php artisan sources:init
  
 ```
 4. Настройте переменные окружения `src/frontend/.env` и `src/backend/.env` в соответствии с .env.example
