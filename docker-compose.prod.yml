@@ -46,7 +46,7 @@ services:
     image: nginx:alpine3.20
     container_name: server-nginx
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./src/backend:/var/www
       - ./docker/common/nginx/conf.d:/etc/nginx/conf.d
