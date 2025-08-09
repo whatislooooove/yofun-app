@@ -37,7 +37,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: mari-fun
+      POSTGRES_DB: yofun
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
