@@ -4,6 +4,9 @@ FROM node:18-alpine AS base
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Копируем файлы зависимостей
 COPY src/frontend/package*.json ./
 
