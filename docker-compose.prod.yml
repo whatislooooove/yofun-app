@@ -1,6 +1,6 @@
 services:
   api:
-    image: whatisl000ve/yofun-backend
+    image: whatisl000ve/yofun-backend:latest
     build:
       dockerfile: ./docker/php/Dockerfile
     container_name: backend
@@ -11,7 +11,7 @@ services:
       - default-network
 
   web-prod:
-    image: whatisl000ve/yofun-frontend
+    image: whatisl000ve/yofun-frontend:latest
     build:
       context: .
       dockerfile: ./docker/node/prod/Dockerfile
