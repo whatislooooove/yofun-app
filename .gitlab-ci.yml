@@ -34,10 +34,9 @@ deploy:
     - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts  # Добавляем VPS в доверенные
   script:
     - scp $DOCKER_COMPOSE_FILE $VPS_USER@$VPS_IP:/app/  # Копируем docker-compose.prod.yml на сервер
-    - ssh $VPS_USER@$VPS_IP "
-        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
-        cd /app &&
-        docker compose -f $DOCKER_COMPOSE_FILE pull &&  # Скачиваем новые образы
-        docker compose -f $DOCKER_COMPOSE_FILE down &&   # Останавливаем старые контейнеры
-        docker compose -f $DOCKER_COMPOSE_FILE up -d    # Запускаем новые
-      "
+    - ssh $VPS_USER@$VPS_IP "sh -c '
+        cd /app \
+        && docker compose -f $DOCKER_COMPOSE_FILE pull \
+        && docker compose -f $DOCKER_COMPOSE_FILE down \
+        && docker compose -f $DOCKER_COMPOSE_FILE up -d
+      '"
