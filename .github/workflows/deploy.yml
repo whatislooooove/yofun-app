@@ -22,6 +22,8 @@ jobs:
 
       # Шаг 3: Собираем и пушим образы через docker-compose
       - name: Build and push images
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
           docker compose -f docker-compose.prod.yml build
           docker compose -f docker-compose.prod.yml push
