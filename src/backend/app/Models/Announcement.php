@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\CustomizableModel;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,7 +22,9 @@ class Announcement extends Model
     }
 
     public function scopeActive(Builder $query) {
-        $query->where('is_active', true)->orderBy('date_start', 'ASC');
+        $query->where('is_active', true)
+            ->where('date_start', '>', Carbon::now())
+            ->orderBy('date_start', 'ASC');
     }
 
     public function scopeQuizzes(Builder $query) {
