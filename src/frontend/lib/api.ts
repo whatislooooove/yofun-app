@@ -44,7 +44,6 @@ export interface EventsResponse {
 }
 
 export async function getIndexData(): Promise<IndexData> {
-    console.log('getting data')
     if (!API_BASE_URL) {
         throw new Error('API_BASE_URL is not defined');
     }
@@ -62,6 +61,7 @@ export async function getIndexData(): Promise<IndexData> {
         return await response.json()
     } catch (error) {
         console.error('Error:', error)
+        console.error('Target url:', API_BASE_URL)
         return {
             meta: {
                 todayEvents: 0,
@@ -187,7 +187,7 @@ export async function getStaticData(): Promise<StaticData> {
             totalEvents: data.totalEvents
         }
     } catch (error) {
-        console.error('Error:', error)
+        console.error('Error from static:', error)
         return {
             todayEvents: 0,
             totalEvents: 0
