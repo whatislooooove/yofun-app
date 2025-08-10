@@ -36,21 +36,21 @@ class AnnouncementsDTO
 
         $sliderEvents = $announcements->filter(function ($item) use ($today, $nextWeek) {
             $itemDate = Carbon::parse($item->date_start);
-            return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek));
+            return ($itemDate->isToday() && $itemDate->gt($today)) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek));
         })->values()
             ->sortBy('date_start')
             ->take(self::SLIDER_MAX_ITEMS);
 
         $upcomingEvents = $announcements->filter(function ($item) use ($today, $nextWeek) {
             $itemDate = Carbon::parse($item->date_start);
-            return ($itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek))) && $item->type == 'default';
+            return (($itemDate->isToday() && $itemDate->gt($today)) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek))) && $item->type == 'default';
         })->values()
             ->sortBy('date_start')
             ->take(self::BLOCK_MAX_ITEMS);
 
         $upcomingQuizzes = $announcements->filter(function ($item) use ($nextWeek, $today) {
             $itemDate = Carbon::parse($item->date_start);
-            return $itemDate->isSameDay($today) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek)) && $item->type == 'quiz';
+            return (($itemDate->isToday() && $itemDate->gt($today)) || ($itemDate->isAfter($today) && $itemDate->isBefore($nextWeek))) && $item->type == 'quiz';
         })->values()
             ->sortBy('date_start')
             ->take(self::BLOCK_MAX_ITEMS);

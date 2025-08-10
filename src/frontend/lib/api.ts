@@ -77,11 +77,12 @@ export async function getIndexData(): Promise<IndexData> {
 export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesResponse> {
 
     const {page = 1} = params
+    const queryParams = new URLSearchParams()
+    const targetUrl = `${API_BASE_URL}/quizzes?${queryParams.toString()}`
 
     try {
-        const queryParams = new URLSearchParams()
         queryParams.append('page', page.toString())
-        const response = await fetch(`${API_BASE_URL}/quizzes?${queryParams.toString()}`, {
+        const response = await fetch(targetUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,6 +110,8 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
         }
     } catch (error) {
         console.error('Error fetching quizzes:', error)
+        console.error('Target url:', targetUrl)
+        console.error('Base url:', `${API_BASE_URL}`)
         return {
             paginationMeta: {currentPage: 0, totalItems: 0, totalPages: 0},
             quizzes: [],

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export default function EmptyState() {
     return (
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-4xl mx-auto text-center px-6">
                 {/* Главная иллюстрация */}
                 <div className="relative mt-12 mb-12">
                     <div className="w-48 h-48 mx-auto bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center relative overflow-hidden">
@@ -40,7 +40,7 @@ export default function EmptyState() {
                 </h1>
 
                 {/* Подзаголовок */}
-                <h2 className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
+                <h2 className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto px-3">
                     В ближайшее время событий не планируется, но это временно!
                 </h2>
 

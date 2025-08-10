@@ -30,7 +30,7 @@ export default function EventSlider({ events }: EventSliderProps) {
   }, [currentSlide])
 
   return (
-    <section className="relative py-16 overflow-hidden">
+    <section className="relative py-16 overflow-hidden hidden md:flex">
       {/* Декоративные элементы */}
       <div className="absolute top-20 left-10 w-20 h-20 bg-purple-500/10 rounded-full blur-xl animate-pulse"></div>
       <div
