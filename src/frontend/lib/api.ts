@@ -77,11 +77,9 @@ export async function getIndexData(): Promise<IndexData> {
 export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesResponse> {
 
     const {page = 1} = params
-    const queryParams = new URLSearchParams()
-    const targetUrl = `${API_BASE_URL}/quizzes?${queryParams.toString()}`
+    const targetUrl = `${API_BASE_URL}/quizzes?page=${page}`
 
     try {
-        queryParams.append('page', page.toString())
         const response = await fetch(targetUrl, {
             method: 'GET',
             headers: {
