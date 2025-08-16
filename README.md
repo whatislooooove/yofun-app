@@ -147,6 +147,7 @@ yofun/
   # Далее устанавливаем миграции, генерим ключ шифрования и открываем доступ на просмотр статических файлов
   docker compose -f docker-compose.prod.yml php artisan migrate
   docker compose -f docker-compose.prod.yml php artisan key:generate
+  docker compose -f docker-compose.prod.yml php artisan moonshine:install
   docker compose -f docker-compose.prod.yml php artisan storage:link
   docker compose -f docker-compose.prod.yml php artisan sources:init
  

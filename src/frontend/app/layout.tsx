@@ -97,6 +97,7 @@ export default function RootLayout({
     <head>
       <link rel="icon" href="/favicon.ico" sizes="any"/>
       <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+      <meta name="yandex-verification" content="3673aaa3198f38a6" />
       {/*
           ИНСТРУКЦИЯ ПО ДОБАВЛЕНИЮ ФАВИКОНОВ:
 
