@@ -7,33 +7,10 @@ namespace App\MoonShine\Layouts;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
-use MoonShine\Laravel\Components\Layout\{Locales, Notifications, Profile, Search};
-use MoonShine\UI\Components\{Breadcrumbs,
-    Components,
-    Layout\Flash,
-    Layout\Div,
-    Layout\Body,
-    Layout\Burger,
-    Layout\Content,
-    Layout\Footer,
-    Layout\Head,
-    Layout\Favicon,
-    Layout\Assets,
-    Layout\Meta,
-    Layout\Header,
-    Layout\Html,
-    Layout\Layout,
-    Layout\Logo,
-    Layout\Menu,
-    Layout\Sidebar,
-    Layout\ThemeSwitcher,
-    Layout\TopBar,
-    Layout\Wrapper,
-    When};
-use MoonShine\Laravel\Resources\MoonShineUserResource;
-use MoonShine\Laravel\Resources\MoonShineUserRoleResource;
+use MoonShine\UI\Components\{Layout\Layout};
 use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
+use App\MoonShine\Resources\FeedbackResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -49,10 +26,9 @@ final class MoonShineLayout extends AppLayout
         return [
             ...parent::menu(),
             MenuGroup::make(__('moonshine::project/ui.resource.project'), [
-                MenuItem::make(__('moonshine::project/ui.resource.feedbacks'), ''),
+                MenuItem::make(__('moonshine::project/ui.resource.feedbacks'), FeedbackResource::class),
                 MenuItem::make(__('moonshine::project/ui.resource.subscribes'), ''),
             ])
-
         ];
     }
 
