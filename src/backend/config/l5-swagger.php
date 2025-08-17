@@ -72,7 +72,10 @@ return [
                     CheckSwaggerAccess::class
                 ],
                 'asset' => [],
-                'docs' => [],
+                'docs' => [
+                    'web',
+                    CheckSwaggerAccess::class
+                ],
                 'oauth2_callback' => [],
             ],
 
