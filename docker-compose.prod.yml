@@ -17,7 +17,7 @@ services:
       dockerfile: ./docker/node/prod/Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-    container_name: frontend-prod
+    container_name: frontend
     ports:
       - "3000:3000"
     environment:
