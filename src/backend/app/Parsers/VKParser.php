@@ -6,12 +6,14 @@ namespace App\Parsers;
 set_time_limit(600);
 
 use AllowDynamicProperties;
+use App\Contracts\AI\AI;
+use app\Enums\AI\Prompts;
 use App\Enums\HostsParsers;
-use App\Enums\Prompts;
-use App\Helpers\MistralAIHelper;
 use App\Models\Announcement;
 use App\Models\Source;
+use app\Services\AI\MistralAI;
 use App\Traits\LoggableCrawler;
+use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Carbon;
 use VK\Client\VKApiClient;
 
@@ -65,11 +67,13 @@ use VK\Client\VKApiClient;
 
             //----------------------------------------------------------------------------------------------------------
             //TODO: надо будет переписать нормально
-            $mistralResponse = MistralAIHelper::simpleRequest(Prompts::ParseContent->value . $post['text'] . '. Дата написания исходного текста - ' . gmdate('d.m.Y H:i:s', $post['date']));
-            $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse['response']);
+            $prompt = app(PromptPreparator::class)->findAnnouncementVK($post);
+            $mistralResponse = app(AI::class)->sendMessage($prompt);
+            // верхний блок норм
+            $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
             $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
             //----------------------------------------------------------------------------------------------------------
-            if (!$mistralResponse['isSuccess']
+            if (!$mistralResponse->isSuccess
                 || !data_get($preparedAiData, 'isEvent')
                 || !$preparedAiData['dateTime']
                 || time() > Carbon::parse(str_replace('.', '-', $preparedAiData['dateTime']))->timestamp

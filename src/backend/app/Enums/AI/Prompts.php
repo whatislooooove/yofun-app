@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace app\Enums\AI;
 
 enum Prompts: string
 {

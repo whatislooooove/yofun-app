@@ -6,12 +6,14 @@ namespace App\Parsers\Quiz;
 set_time_limit(600);
 
 use AllowDynamicProperties;
-use App\Enums\Prompts;
-use App\Helpers\MistralAIHelper;
+use App\Contracts\AI\AI;
+use app\Enums\AI\Prompts;
 use App\Models\Announcement;
 use App\Models\Source;
 use App\Parsers\AbstractParser;
+use app\Services\AI\MistralAI;
 use App\Traits\LoggableCrawler;
+use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Facades\Http;
 
 #[AllowDynamicProperties] class QuizPleaseParser extends AbstractParser
@@ -54,7 +56,7 @@ use Illuminate\Support\Facades\Http;
                 $dateTimePrepared = date('Y') . ' ' . $dateTime[1] . ' ' .  $dateTime[2];
 
                 preg_match('#id="' . $id . '".*?h2-game-card.*?">([^<]+)</div>.*?h2-game.*?">([^<]+)#s', $this->htmlCode, $title);
-                $titlePrepared = $title[1] . ' ' . $title[2];
+                $titlePrepared = $title[1] . ' ' . ((strlen($title[2]) < 5) ? $title[2] : '');
 
                 preg_match('#id="' . $id . '".*?techtext.*?">([^<]+)</div>#s', $this->htmlCode, $description);
 
@@ -78,8 +80,10 @@ use Illuminate\Support\Facades\Http;
                 }
 
                 //----
-                $mistralResponse = MistralAIHelper::simpleRequest(Prompts::PrepareQuizData->value . json_encode($resultData));
-                $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse['response']);
+                $prompt = app(PromptPreparator::class)->findAnnouncementOther($resultData);
+                $mistralResponse = app(AI::class)->sendMessage($prompt);
+                //--- ьлок выше норм
+                $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
                 $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
                 //----
 
@@ -87,7 +91,7 @@ use Illuminate\Support\Facades\Http;
                     'source_id' => $this->source->id,
                     'date_start' => $preparedAiData['dateTime'],
                     'id_in_source' => $resultData['id_in_source'],
-                    'title' => $resultData['title'],
+                    'title' => trim($resultData['title']),
                     'description' => $preparedAiData['description'],
                     'type' => 'quiz',
                     'address' => $resultData['address'],

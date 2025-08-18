@@ -6,12 +6,14 @@ namespace app\Parsers\Quiz;
 set_time_limit(600);
 
 use AllowDynamicProperties;
-use App\Enums\Prompts;
-use App\Helpers\MistralAIHelper;
+use App\Contracts\AI\AI;
+use app\Enums\AI\Prompts;
 use App\Models\Announcement;
 use App\Models\Source;
 use App\Parsers\AbstractParser;
+use app\Services\AI\MistralAI;
 use App\Traits\LoggableCrawler;
+use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Facades\Http;
 
 #[AllowDynamicProperties] class AlbertPartyParser extends AbstractParser
@@ -83,8 +85,10 @@ use Illuminate\Support\Facades\Http;
                 }
 
                 //----
-                $mistralResponse = MistralAIHelper::simpleRequest(Prompts::PrepareQuizData->value . json_encode($resultData));
-                $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse['response']);
+                $prompt = app(PromptPreparator::class)->findAnnouncementOther($resultData);
+                $mistralResponse = app(AI::class)->sendMessage($prompt);
+                //--- блок выше норм
+                $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
                 $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
                 //----
 

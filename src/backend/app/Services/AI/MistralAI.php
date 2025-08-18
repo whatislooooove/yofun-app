@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Helpers;
+namespace app\Services\AI;
 
+use App\Contracts\AI\AI;
+use app\DTO\AI\AIResponseRawDTO;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
-use SoftCreatR\MistralAI\MistralAI;
+use SoftCreatR\MistralAI\MistralAI as MistralAIInternal;
 use SoftCreatR\MistralAI\MistralAIURLBuilder;
 
 /**
@@ -15,16 +17,27 @@ use SoftCreatR\MistralAI\MistralAIURLBuilder;
  *
  * Provides methods to instantiate the MistralAI client and send requests to the MistralAI API endpoints.
  */
-final class MistralAIHelper
+final class MistralAI implements AI
 {
     const PAUSE_TIME = 3;
     const MODEL_NAME = 'codestral-latest';
+    const AI_NAME = 'Mistral AI';
     /**
      * Prevents instantiation of this class.
      */
-    private function __construct()
+    public function __construct()
     {
         // This class should not be instantiated.
+    }
+
+    public function getName(): string
+    {
+        return self::AI_NAME;
+    }
+
+    public function sendMessage(string $prompt): AIResponseRawDTO
+    {
+        return AIResponseRawDTO::fromArray($this->simpleRequest($prompt));
     }
 
     /**
@@ -32,22 +45,42 @@ final class MistralAIHelper
      *
      * Get API-key from env file
      *
-     * @return MistralAI The MistralAI client instance.
+     * @return MistralAIInternal The MistralAI client instance.
      */
-    public static function create(): MistralAI
+    public static function create(): MistralAIInternal
     {
         $psr17Factory = new HttpFactory();
         $httpClient = new Client([
             'stream' => true,
         ]);
 
-        return new MistralAI(
+        return new MistralAIInternal(
             requestFactory: $psr17Factory,
             streamFactory: $psr17Factory,
             uriFactory: $psr17Factory,
             httpClient: $httpClient,
             apiKey: env('MISTRAL_API_KEY')
         );
+    }
+
+    public function simpleRequest(string $message): array {
+        sleep(self::PAUSE_TIME);
+        $response = self::request('createChatCompletion', [
+            'model' => self::MODEL_NAME,
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => $message,
+                ],
+            ],
+            'temperature' => 0.7,
+            'top_p' => 1,
+        ]);
+
+        return [
+            'isSuccess' => $response['isSuccess'],
+            'response' => data_get($response, 'response.choices.0.message.content') ?? json_encode($response['response'])
+        ];
     }
 
     /**
@@ -59,7 +92,7 @@ final class MistralAIHelper
      *
      * @return array
      */
-    public static function request(string $method, array $parameters = [], ?callable $streamCallback = null): array
+    private static function request(string $method, array $parameters = [], ?callable $streamCallback = null): array
     {
         $mistralAI = self::create();
         $isSuccess = false;
@@ -104,25 +137,4 @@ final class MistralAIHelper
             'response' => $response
         ];
     }
-
-    public static function simpleRequest(string $message): array {
-        sleep(self::PAUSE_TIME); // Чтобы не нарваться на лимит частоты запросов
-        $response = self::request('createChatCompletion', [
-            'model' => self::MODEL_NAME,
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => $message,
-                ],
-            ],
-            'temperature' => 0.7,
-            'top_p' => 1,
-        ]);
-
-        return [
-            'isSuccess' => $response['isSuccess'],
-            'response' => data_get($response, 'response.choices.0.message.content') ?? $response['response']
-        ];
-    }
-
 }
