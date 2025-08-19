@@ -25,10 +25,12 @@ use Illuminate\Support\Facades\URL;
     const string FRANCHISE_NAME = 'ObanaQuiz';
 
     protected string $url;
+    protected Source $source;
     protected array $preparedData;
 
     public function __construct(string $url)
     {
+        $this->source = Source::where('url', $url)->first();
         $this->url = $url;
     }
     protected function getContent(): void

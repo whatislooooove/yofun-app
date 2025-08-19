@@ -3,10 +3,12 @@
 namespace App\Crawlers;
 
 use App\Models\Announcement;
+use App\Models\Source;
 
 abstract class AbstractParser implements IParser
 {
     protected string $url;
+    protected Source $source;
     protected array $savedAnnouncements = [];
 
     abstract protected function getContent();

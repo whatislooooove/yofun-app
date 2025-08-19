@@ -25,11 +25,13 @@ use Illuminate\Support\Facades\URL;
     const string FRANCHISE_NAME = 'WowQuiz';
 
     protected string $url;
+    protected Source $source;
     protected array $preparedData;
 
     public function __construct(string $url)
     {
         $this->url = $url;
+        $this->source = Source::where('url', $url)->first();
     }
     protected function getContent(): void
     {

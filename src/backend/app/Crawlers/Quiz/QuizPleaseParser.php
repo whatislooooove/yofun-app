@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Http;
     const string FRANCHISE_NAME = 'QuizPlease';
 
     protected string $url;
-    private Source $source;
+    protected Source $source;
     private string $htmlCode;
 
     public function __construct(string $url)

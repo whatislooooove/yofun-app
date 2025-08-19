@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Http;
     const string DOMAIN = 'https://yo.albertparty.ru';
     const string FRANCHISE_NAME = 'AlbertParty (WowQuiz)';
     protected string $url;
-    private Source $source;
+    protected Source $source;
     private string $htmlCode;
 
     public function __construct(string $url)

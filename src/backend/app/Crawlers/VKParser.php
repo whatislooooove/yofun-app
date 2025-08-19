@@ -19,7 +19,7 @@ use VK\Client\VKApiClient;
 {
     use LoggableCrawler;
     private array $posts;
-    private Source $source;
+    protected Source $source;
     public function __construct(string $url)
     {
         //TODO: если будет много манипуляций с урлами, вынести в отдельный хелпер

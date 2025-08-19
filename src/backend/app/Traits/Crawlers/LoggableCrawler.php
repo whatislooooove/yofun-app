@@ -11,6 +11,9 @@ trait LoggableCrawler
             'target' => $this->url,
             'count' => count($this->savedAnnouncements)
         ]);
+        Log::channel('crawlers')->debug('Source ID: {sourceId}', [
+            'sourceId' => $this->source->id
+        ]);
         Log::channel('crawlers')->debug($this->savedAnnouncements);
         Log::channel('crawlers')->warning("Block end\n\n");
     }
