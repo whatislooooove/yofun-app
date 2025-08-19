@@ -80,6 +80,7 @@ use Illuminate\Support\Facades\URL;
             $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
             //----
 
+            //TODO: иногда нету dateTime, из-за этого падает
             $info = Announcement::create([
                 'source_id' => $sourceId,
                 'date_start' => $preparedAiData['dateTime'],

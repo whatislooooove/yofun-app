@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Contracts\AI\AI;
+use App\Models\Announcement;
+use App\Observers\AnnouncementObserver;
 use app\Services\AI\MistralAI;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Announcement::observe(AnnouncementObserver::class);
     }
 }
