@@ -1,18 +1,16 @@
 <?php
 
-namespace app\Parsers\Quiz;
+namespace app\Crawlers\Quiz;
 
 // Увеличиваю время выполнения только здесь, так как АPI Mistral AI может вернуть ответ не быстро
 set_time_limit(600);
 
 use AllowDynamicProperties;
 use App\Contracts\AI\AI;
-use app\Enums\AI\Prompts;
+use App\Crawlers\AbstractParser;
 use App\Models\Announcement;
 use App\Models\Source;
-use App\Parsers\AbstractParser;
-use app\Services\AI\MistralAI;
-use App\Traits\LoggableCrawler;
+use app\Traits\Crawlers\LoggableCrawler;
 use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Facades\Http;
 

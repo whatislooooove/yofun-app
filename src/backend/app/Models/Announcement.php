@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\CustomizableModel;
+use app\Traits\Model\CustomizableModel;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Traits;
+namespace app\Traits\Model;
 
 trait CustomizableModel
 {

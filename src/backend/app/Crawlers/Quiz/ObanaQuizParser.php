@@ -1,30 +1,28 @@
 <?php
 
-namespace App\Parsers\Quiz;
+namespace App\Crawlers\Quiz;
 
 // Увеличиваю время выполнения только здесь, так как АPI Mistral AI может вернуть ответ не быстро
 set_time_limit(600);
 
 use AllowDynamicProperties;
 use App\Contracts\AI\AI;
-use app\Enums\AI\Prompts;
+use App\Crawlers\AbstractParser;
 use App\Models\Announcement;
 use App\Models\Source;
-use App\Parsers\AbstractParser;
-use app\Services\AI\MistralAI;
-use App\Traits\LoggableCrawler;
+use app\Traits\Crawlers\LoggableCrawler;
 use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
-#[AllowDynamicProperties] class WowQuizParser extends AbstractParser
+#[AllowDynamicProperties] class ObanaQuizParser extends AbstractParser
 {
     use LoggableCrawler;
-    const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/wowquiz.jpg';
-    const string API_URL = 'https://api.etowow.ru/games/all';
-    const string DETAIL_PAGE = 'https://yo.wowquiz.ru/schedule';
+    const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/obanaquiz.jpg';
+    const string IMAGE_PREFIX = 'https://obana.club/_next/image';
+    const string API_URL = 'https://obana.club/api/cities/5/games';
 
-    const string FRANCHISE_NAME = 'WowQuiz';
+    const string FRANCHISE_NAME = 'ObanaQuiz';
 
     protected string $url;
     protected array $preparedData;
@@ -36,12 +34,10 @@ use Illuminate\Support\Facades\URL;
     protected function getContent(): void
     {
         $params = [
-            'upcoming' => 1,
             'page' => 1,
-            'domain' => $this->url,
+            'withPast' => 'false',
         ];
         $targetUrl = URL::to(self::API_URL . '?' . http_build_query($params));
-
         $response = Http::get($targetUrl);
         $body = $response->body();
         if ($response->getStatusCode() != 200) {
@@ -54,7 +50,7 @@ use Illuminate\Support\Facades\URL;
 
     protected function parseContent(): void
     {
-        $games = data_get($this->preparedData, 'data.games', []);
+        $games = data_get($this->preparedData, 'content.items', []);
         $sourceId = Source::where('parser', $this::class)->select('id')->first()->id;
 
         foreach ($games as $game) {
@@ -64,8 +60,8 @@ use Illuminate\Support\Facades\URL;
                 'description' => $game['description'],
                 'price' => $game['price'],
                 'dateTime' => $game['date'],
-                'address' => $game['bar']['address'],
-                'image' => $game['image_url'] ?? self::DEFAULT_IMAGE,
+                'address' => $game['location']['address'],
+                'image' => $game['imageFileId'] ? self::IMAGE_PREFIX .'?url=%2Fapi%2Ffiles%2F' . $game['imageFileId'] . '&w=640&q=75%201x': self::DEFAULT_IMAGE,
             ];
 
             if (Announcement::where('id_in_source', $targetData['id_in_source'])->exists()) {
@@ -90,7 +86,7 @@ use Illuminate\Support\Facades\URL;
                 'address' => $targetData['address'],
                 'img' => $targetData['image'],
                 'price' => $targetData['price'],
-                'detail_url' => self::DETAIL_PAGE,
+                'detail_url' => $this->url . '?game=' . $targetData['id_in_source'],
                 'latitude' => 0,
                 'longitude' => 0,
                 'extra' => [

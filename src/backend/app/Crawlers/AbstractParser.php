@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Parsers;
+namespace App\Crawlers;
 
 use App\Models\Announcement;
 
