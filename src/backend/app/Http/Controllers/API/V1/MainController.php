@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\DTO\AnnouncementsDTO;
+use App\DTO\IndexDTO;
 use App\DTO\FeedbackDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AnnouncementResource;
@@ -52,7 +52,7 @@ class MainController extends Controller
     )]
     public function index() {
         $allActive = Announcement::active()->get();
-        $eventsData = AnnouncementsDTO::fromCollection($allActive);
+        $eventsData = IndexDTO::fromCollection($allActive);
 
         return response()->json([
             'sliderEvents' => AnnouncementResource::collection($eventsData->sliderEvents),

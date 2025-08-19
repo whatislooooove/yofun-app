@@ -6,7 +6,7 @@ use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
-class AnnouncementsDTO
+class IndexDTO
 {
     const int SLIDER_MAX_ITEMS = 3;
     const int BLOCK_MAX_ITEMS = 8;
