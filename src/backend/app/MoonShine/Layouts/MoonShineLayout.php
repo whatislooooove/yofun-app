@@ -11,6 +11,7 @@ use MoonShine\UI\Components\{Layout\Layout};
 use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
 use App\MoonShine\Resources\FeedbackResource;
+use App\MoonShine\Resources\CrawlerLogResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -27,8 +28,8 @@ final class MoonShineLayout extends AppLayout
             ...parent::menu(),
             MenuGroup::make(__('moonshine::project/ui.resource.project'), [
                 MenuItem::make(__('moonshine::project/ui.resource.feedbacks'), FeedbackResource::class),
-                MenuItem::make(__('moonshine::project/ui.resource.subscribes'), ''),
-            ])
+                MenuItem::make(__('moonshine::project/ui.resource.crawler_logs'), CrawlerLogResource::class),
+            ]),
         ];
     }
 
