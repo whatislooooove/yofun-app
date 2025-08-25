@@ -13,7 +13,7 @@ use app\Traits\Crawlers\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
-#[AllowDynamicProperties] class ObanaQuizParser extends WebParser
+#[AllowDynamicProperties] final class ObanaQuizParser extends WebParser
 {
     use LoggableCrawler;
     const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/obanaquiz.jpg';

@@ -12,7 +12,7 @@ use App\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 
-#[AllowDynamicProperties] class QuizPleaseParser extends WebParser
+#[AllowDynamicProperties] final class QuizPleaseParser extends WebParser
 {
     use LoggableCrawler;
 

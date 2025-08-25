@@ -6,15 +6,14 @@ namespace app\Crawlers\Web\Quiz;
 set_time_limit(600);
 
 use AllowDynamicProperties;
-use App\Crawlers\AbstractParser;
-use app\Crawlers\Web\WebParser;
+use App\Crawlers\Web\WebParser;
 use App\Models\Source;
 use app\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
-#[AllowDynamicProperties] class WowQuizParser extends WebParser
+#[AllowDynamicProperties] final class WowQuizParser extends WebParser
 {
     use LoggableCrawler;
     const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/wowquiz.jpg';

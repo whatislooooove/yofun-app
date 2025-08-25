@@ -12,7 +12,7 @@ use app\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
 use Illuminate\Support\Facades\Http;
 
-#[AllowDynamicProperties] class AlbertPartyParser extends WebParser
+#[AllowDynamicProperties] final class AlbertPartyParser extends WebParser
 {
     use LoggableCrawler;
     const string DOMAIN = 'https://yo.albertparty.ru';

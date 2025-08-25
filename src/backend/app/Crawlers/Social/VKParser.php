@@ -17,7 +17,7 @@ use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Carbon;
 use VK\Client\VKApiClient;
 
-#[AllowDynamicProperties] class VKParser extends AbstractParser
+#[AllowDynamicProperties] final class VKParser extends AbstractParser
 {
     use LoggableCrawler;
 
@@ -65,49 +65,22 @@ use VK\Client\VKApiClient;
             if (data_get($post, 'is_pinned', false)) {
                 continue;
             }
+            $resultData = $this->getAnnouncementDetail($post);
+            if (!is_null(app(AnnouncementRepository::class)->getByExternalId($post['id']))) {
+                continue;
+            }
 
-            //----------------------------------------------------------------------------------------------------------
-            //TODO: надо будет переписать нормально
-            $prompt = app(PromptPreparator::class)->findAnnouncementVK($post);
-            $mistralResponse = app(AI::class)->sendMessage($prompt);
-            // верхний блок норм
-            $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
-            $preparedAiData = json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
-            //----------------------------------------------------------------------------------------------------------
-            if (!$mistralResponse->isSuccess
-                || !data_get($preparedAiData, 'isEvent')
+            $preparedAiData = $this->getAIHandledData($post);
+
+            if (!data_get($preparedAiData, 'isEvent')
                 || !$preparedAiData['dateTime']
                 || time() > Carbon::parse(str_replace('.', '-', $preparedAiData['dateTime']))->timestamp
-                || is_null($preparedAiData)
                 || Announcement::where('id_in_source', $post['id'])->exists()){
                 continue;
             }
 
-            $info = Announcement::updateOrCreate([
-                'source_id' => $this->source->id,
-                'date_start' => $preparedAiData['dateTime'],
-            ],[
-                'id_in_source' => $post['id'],
-                'title' => $preparedAiData['title'],
-                'description' => $preparedAiData['description'],
-                'type' => 'default',
-                'address' => $preparedAiData['address'] ?: $this->source->extra['address'],
-                'img' => data_get($post, 'attachments.0.photo.orig_photo.url'),
-                'latitude' => data_get($post, 'geo.place.latitude') ?? $this->source->extra['defaultLatitude'],
-                'longitude' => data_get($post, 'geo.place.longitude') ?? $this->source->extra['defaultLongitude'],
-                'date_start' => $preparedAiData['dateTime'],
-                'price' => data_get($preparedAiData, 'price') ?? 0,
-                'detail_url' => HostsParsers::VKParser->value . '/wall' . $this->source['extra']['groupId'] . '_' . $post['id'],
-                'extra' => [
-                    'publishDate' => gmdate('Y.m.d H:i:s', $post['date']),
-                    'editDate' => data_get($post, 'edited') ? gmdate('Y.m.d H:i:s', $post['edited']) : null,
-                    'views' => $post['views']['count'],
-                    'additional_address' => $this->source->extra['additionalAddress'],
-                    'sourceText' => $post['text']
-                ]
-            ]);
-
-            $this->setSavedAnnouncements($info);
+            $current = app(AnnouncementRepository::class)->create(array_merge($preparedAiData, $resultData));
+            $this->setSavedAnnouncements($current);
         }
     }
 
@@ -145,8 +118,21 @@ use VK\Client\VKApiClient;
         ];
     }
 
-    protected function getAnnouncementDetail(array $rawData)
+    protected function getAnnouncementDetail(array $rawData): array
     {
-        // TODO: Implement getAnnouncementDetail() method.
+        return [
+            'source_id' => $this->source->id,
+            'id_in_source' => $rawData['id'],
+            'type' => 'default',
+            'image' => data_get($rawData, 'attachments.0.photo.orig_photo.url'),
+            'detail_url' => HostsParsers::VKParser->value . '/wall' . $this->source['extra']['groupId'] . '_' . $rawData['id'],
+            'extra' => [
+                'publishDate' => gmdate('Y.m.d H:i:s', $rawData['date']),
+                'editDate' => data_get($rawData, 'edited') ? gmdate('Y.m.d H:i:s', $rawData['edited']) : null,
+                'views' => $rawData['views']['count'],
+                'additional_address' => $this->source->extra['additionalAddress'],
+                'sourceText' => $rawData['text']
+            ]
+        ];
     }
 }
