@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Crawlers\Quiz;
+namespace app\Crawlers\Web\Quiz;
 
 // Увеличиваю время выполнения только здесь, так как АPI Mistral AI может вернуть ответ не быстро
 set_time_limit(600);
 
 use AllowDynamicProperties;
-use App\Contracts\AI\AI;
-use App\Crawlers\AbstractParser;
+use App\Crawlers\Web\WebParser;
 use App\Models\Source;
 use App\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
-use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Facades\Http;
 
-#[AllowDynamicProperties] class QuizPleaseParser extends AbstractParser
+#[AllowDynamicProperties] class QuizPleaseParser extends WebParser
 {
     use LoggableCrawler;
 
@@ -49,7 +47,7 @@ use Illuminate\Support\Facades\Http;
         if (isset($this->htmlCode)) {
             preg_match_all('/<div\b[^>]*\bid="(\d+)"/', $this->htmlCode, $ids);
             foreach ($ids[1] as $id) {
-                $resultData = $this->getAnnouncementDetail($id);
+                $resultData = $this->getAnnouncementDetailById($id);
                 if (!is_null(app(AnnouncementRepository::class)->getByExternalId($id))) {
                     continue;
                 }
@@ -62,7 +60,7 @@ use Illuminate\Support\Facades\Http;
         }
     }
 
-    private function getAnnouncementDetail(int $externalId): array
+    protected function getAnnouncementDetailById(int $externalId): array
     {
         preg_match('#id="' . $externalId . '".*?<span class="price">([^<]+)</span>#s', $this->htmlCode, $price);
         $pricePrepared = filter_var($price[1], FILTER_SANITIZE_NUMBER_INT);
@@ -97,11 +95,8 @@ use Illuminate\Support\Facades\Http;
         ];
     }
 
-    private function getAIHandledData(array $rawData): array {
-        $prompt = app(PromptPreparator::class)->findAnnouncementOther($rawData);
-        $mistralResponse = app(AI::class)->sendMessage($prompt);
-        $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
-
-        return json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
+    protected function getAnnouncementDetail(array $rawData)
+    {
+        // TODO: Implement getAnnouncementDetail() method.
     }
 }

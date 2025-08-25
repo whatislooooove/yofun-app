@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Crawlers;
+namespace app\Crawlers\Social;
 
 // Увеличиваю время выполнения только здесь, так как АPI Mistral AI может вернуть ответ не быстро
 set_time_limit(600);
 
 use AllowDynamicProperties;
 use App\Contracts\AI\AI;
+use App\Crawlers\AbstractParser;
 use App\Enums\HostsParsers;
 use App\Models\Announcement;
 use App\Models\Source;
+use app\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
 use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Carbon;
@@ -18,8 +20,9 @@ use VK\Client\VKApiClient;
 #[AllowDynamicProperties] class VKParser extends AbstractParser
 {
     use LoggableCrawler;
-    private array $posts;
+
     protected Source $source;
+    private array $posts;
     public function __construct(string $url)
     {
         //TODO: если будет много манипуляций с урлами, вынести в отдельный хелпер
@@ -140,5 +143,10 @@ use VK\Client\VKApiClient;
             'defaultLatitude' => data_get($address, 'items.0.latitude') ?? 0,
             'defaultLongitude' => data_get($address, 'items.0.longitude') ?? 0
         ];
+    }
+
+    protected function getAnnouncementDetail(array $rawData)
+    {
+        // TODO: Implement getAnnouncementDetail() method.
     }
 }

@@ -14,7 +14,7 @@ class AnnouncementRepository
     public function create(array $data): Announcement
     {
         return Announcement::create([
-            'source_id' => $data['id_in_source'],
+            'source_id' => $data['source_id'],
             'date_start' => $data['dateTime'],
             'id_in_source' => $data['id_in_source'],
             'title' => $data['title'],

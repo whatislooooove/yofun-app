@@ -2,8 +2,10 @@
 
 namespace App\Crawlers;
 
+use App\Contracts\AI\AI;
 use App\Models\Announcement;
 use App\Models\Source;
+use App\Utilities\AI\PromptPreparator;
 
 abstract class AbstractParser implements IParser
 {
@@ -27,4 +29,14 @@ abstract class AbstractParser implements IParser
             'detail_url' => $object->detail_url,
         ];
     }
+
+    protected function getAIHandledData(array $rawData): array {
+        $prompt = app(PromptPreparator::class)->findAnnouncementOther($rawData);
+        $mistralResponse = app(AI::class)->sendMessage($prompt);
+        $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);
+
+        return json_decode(is_array($preparedToArray) ? $preparedToArray[0] : $preparedToArray, true);
+    }
+
+    protected abstract function getAnnouncementDetail(array $rawData);
 }

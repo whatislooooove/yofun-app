@@ -197,7 +197,7 @@ export async function getStaticData(): Promise<StaticData> {
 }
 
 export async function sendFeedback(data: any) {
-     return await fetch('/api/feedback', {
+     return await fetch('/webapi/feedback', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
