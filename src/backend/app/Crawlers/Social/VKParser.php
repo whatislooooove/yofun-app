@@ -23,6 +23,7 @@ use VK\Client\VKApiClient;
 
     protected Source $source;
     private array $posts;
+
     public function __construct(string $url)
     {
         //TODO: если будет много манипуляций с урлами, вынести в отдельный хелпер
