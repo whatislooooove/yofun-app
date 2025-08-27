@@ -53,6 +53,7 @@ services:
       - default-network
     depends_on:
       - web-prod
+      - api
 
 networks:
   default-network:
