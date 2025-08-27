@@ -5,10 +5,12 @@ services:
       dockerfile: ./docker/php/Dockerfile
     container_name: backend
     working_dir: /var/www
-    volumes:
-      - ./src/backend:/var/www
     networks:
       - default-network
+    env_file:
+      - ./.env.laravel
+    depends_on:
+      - db
 
   web-prod:
     image: whatisl000ve/yofun-frontend:latest
@@ -20,6 +22,8 @@ services:
     container_name: frontend
     ports:
       - "3000:3000"
+    env_file:
+      - .env.nextjs
     environment:
       - NODE_ENV=production
       - HOSTNAME=0.0.0.0
@@ -47,7 +51,6 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src/backend:/var/www
       - ./docker/common/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/common/nginx/logs:/var/log/nginx
     networks:
