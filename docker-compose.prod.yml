@@ -51,6 +51,8 @@ services:
       - ./docker/common/nginx/logs:/var/log/nginx
     networks:
       - default-network
+    depends_on:
+      - api
 
 networks:
   default-network:
