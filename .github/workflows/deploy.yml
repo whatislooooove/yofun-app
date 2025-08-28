@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }} # Обычно 'root'
           key: ${{ secrets.SSH_PRIVATE_KEY }}     # Приватный SSH-ключ
           script: |
-            cd /var/www/yofun.ru
+            cd /var/www/yofun-infrastructure/production
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d
             docker image prune -f
