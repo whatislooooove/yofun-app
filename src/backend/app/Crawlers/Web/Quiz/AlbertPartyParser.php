@@ -80,7 +80,7 @@ use Illuminate\Support\Facades\Http;
             'id_in_source' => $externalId,
             'detail_url' => self::DOMAIN . '/game/' . $externalId,
             'title' => trim($titlePrepared),
-            'description' => $description[1],
+            'description' => data_get($description, '1', ''),
             'date_start' => $dateTimePrepared,
             'price' => $pricePrepared,
             'address' => $addressPrepared,

@@ -22,6 +22,18 @@ sudo apt install git -y
   docker compose -f docker-compose.prod.yml pull
   docker compose -f docker-compose.prod.yml up -d
 ```
+5. Теперь, если проект запускается впервые, необходимо выполнить artisan-команды
+```bash
+  # Устанавливаем миграции, генерим ключ шифрования и открываем доступ на просмотр статических файлов
+  docker compose -f docker-compose.prod.yml php artisan migrate
+  docker compose -f docker-compose.prod.yml php artisan key:generate
+  docker compose -f docker-compose.prod.yml php artisan moonshine:install
+  docker compose -f docker-compose.prod.yml php artisan storage:link
+  docker compose -f docker-compose.prod.yml php artisan sources:init
+ 
+```
+P.S. Этот момент нужно как то автоматизировать на уровне CI CD. На крайняк, можно написать bash-скрипт
+для первичной установки проекта
 
 CI/CD на Github Actions настроены на автоматическую сборку и деплой контейнеров при каждом пуше нового коммита
 в мастер, поэтому для обновления прода все что необходимо сделать - сделать пуш в мастер.
