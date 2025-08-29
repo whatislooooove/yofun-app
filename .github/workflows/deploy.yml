@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest  # GitHub предоставляет мощный сервер для сборки
+    runs-on: ubuntu-latest  # Собираем на серваках Github
 
     steps:
       # Шаг 1: Забираем код из репозитория
@@ -37,7 +37,6 @@ jobs:
         run: |
           docker compose -f docker-compose.prod.yml build server
           docker compose -f docker-compose.prod.yml push server
-  # НОВЫЙ JOB: Деплой на сервер
   deploy:
     runs-on: ubuntu-latest
     # Этот job запустится ТОЛЬКО если предыдущий (build-and-push) успешно завершился
@@ -47,41 +46,30 @@ jobs:
       - name: Deploy to production server
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.SERVER_IP }}          # IP вашего VPS
-          username: ${{ secrets.SERVER_USERNAME }} # Обычно 'root'
-          key: ${{ secrets.SSH_PRIVATE_KEY }}     # Приватный SSH-ключ
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/yofun-infrastructure/production
-            # 1. Останавливаем старые контейнеры
-            docker compose -f docker-compose.prod.yml down
             
-            # 2. Pull новых образов
+            docker compose -f docker-compose.prod.yml down
             docker compose -f docker-compose.prod.yml pull
             
-            # 3. Запускаем только API и БД (для инициализации volume)
+            # Запускаем только API и БД (для инициализации volume)
             docker compose -f docker-compose.prod.yml up -d api db
-            
-            # 4. Ждем пока API полностью запустится
             echo "Waiting for API to start..."
             sleep 15
             
-            # 5. ⭐ КРИТИЧЕСКИ ВАЖНЫЙ ШАГ ⭐
             # Копируем статику из образа в volume
             echo "Copying static files to volume..."
             docker exec backend sh -c "cp -r /app/public/* /var/www/public/ 2>/dev/null || echo 'No files to copy'"
             
-            # 6. Проверяем что файлы скопировались
+            # Проверяем что файлы скопировались
             echo "Checking files in volume:"
             docker exec backend ls -la /var/www/public/
             
-            # 7. Запускаем все остальные сервисы
+            # Запускаем все остальные сервисы
             docker compose -f docker-compose.prod.yml up -d
             
-            # 8. Финальная проверка
-            echo "Checking files in server container:"
-            docker exec server-nginx ls -la /var/www/public/
-            
-            # 9. Очистка
             docker image prune -f
-            
             echo "Deployment completed successfully!"
