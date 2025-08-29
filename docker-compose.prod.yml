@@ -5,6 +5,8 @@ services:
       dockerfile: ./docker/php/Dockerfile
     container_name: backend
     working_dir: /var/www
+    volumes:
+      - static_data:/var/www/public
     networks:
       - default-network
     depends_on:
@@ -40,6 +42,7 @@ services:
       - "8080:80"
     volumes:
       - ./docker/common/nginx/logs:/var/log/nginx
+      - static_data:/var/www/public:ro
     networks:
       - default-network
     depends_on:
@@ -60,3 +63,4 @@ networks:
 
 volumes:
   postgres-data:
+  static-data:
