@@ -32,6 +32,9 @@ services:
 
   server:
     image: whatisl000ve/yofun-webserver:latest
+    build:
+      context: .
+      dockerfile: ./docker/common/nginx/prod/Dockerfile
     container_name: server-nginx
     ports:
       - "8080:80"
