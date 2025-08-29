@@ -21,12 +21,22 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       # Шаг 3: Собираем и пушим образы через docker-compose
-      - name: Build and push images
+      - name: Build and push backend image
+        run: |
+          docker compose -f docker-compose.prod.yml build api
+          docker compose -f docker-compose.prod.yml push api
+
+      - name: Build and push frontend image
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
-          docker compose -f docker-compose.prod.yml build
-          docker compose -f docker-compose.prod.yml push
+          docker compose -f docker-compose.prod.yml build web-prod
+          docker compose -f docker-compose.prod.yml push web-prod
+
+      - name: Build and push nginx image
+        run: |
+          docker compose -f docker-compose.prod.yml build server
+          docker compose -f docker-compose.prod.yml push server
   # НОВЫЙ JOB: Деплой на сервер
   deploy:
     runs-on: ubuntu-latest
