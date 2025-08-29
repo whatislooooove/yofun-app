@@ -30,6 +30,19 @@ services:
     depends_on:
       - api
 
+  server:
+    image: whatisl000ve/yofun-webserver:latest
+    container_name: server-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/common/nginx/logs:/var/log/nginx
+    networks:
+      - default-network
+    depends_on:
+      - web-prod
+      - api
+
   db:
     image: postgres:17-bookworm
     container_name: postgres-db
@@ -37,20 +50,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - default-network
-
-  server:
-    image: nginx:alpine3.20
-    container_name: server-nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - ./docker/common/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/common/nginx/logs:/var/log/nginx
-    networks:
-      - default-network
-    depends_on:
-      - web-prod
-      - api
 
 networks:
   default-network:
