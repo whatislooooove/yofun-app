@@ -17,6 +17,7 @@
         "moonshine/moonshine": "^3.14",
         "moonshine/ru": "^1.0",
         "softcreatr/php-mistral-ai-sdk": "^2.0",
+        "spatie/laravel-prometheus": "^1.2",
         "symfony/filesystem": "^7.2",
         "twbs/bootstrap": "5.0.2",
         "vkcom/vk-php-sdk": "^5.131"
