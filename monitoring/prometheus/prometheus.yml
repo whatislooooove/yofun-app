@@ -1,0 +1,50 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+
+scrape_configs:
+  - job_name: 'laravel-api'
+    scrape_interval: 10s
+    scrape_timeout: 8s
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ['server-nginx:80']
+    # Устаревший синтаксис:
+    # labels:
+    #   app: 'yofun-api'
+    #   env: 'production'
+
+    # Новый синтаксис меток:
+    relabel_configs:
+      - source_labels: []
+        target_label: app
+        replacement: 'yofun-api'
+      - source_labels: []
+        target_label: env
+        replacement: 'production'
+      - source_labels: []
+        target_label: namespace
+        replacement: 'laravel'
+
+  - job_name: 'prometheus'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:9090']
+    relabel_configs:
+      - source_labels: []
+        target_label: app
+        replacement: 'prometheus'
+      - source_labels: []
+        target_label: env
+        replacement: 'monitoring'
+
+# Дополнительные настройки (опционально)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+          # - alertmanager:9093
+
+# rule_files:
+#   - alert.rules.yml

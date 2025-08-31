@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\CheckSwaggerAccess;
+use App\Http\Middleware\ExternalServiceAccess;
 
 return [
     'default' => 'default',
@@ -69,12 +69,12 @@ return [
             'middleware' => [
                 'api' => [
                     'web',
-                    CheckSwaggerAccess::class
+                    ExternalServiceAccess::class
                 ],
                 'asset' => [],
                 'docs' => [
                     'web',
-                    CheckSwaggerAccess::class
+                    ExternalServiceAccess::class
                 ],
                 'oauth2_callback' => [],
             ],

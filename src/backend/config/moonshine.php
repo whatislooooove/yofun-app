@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\CheckSwaggerAccess;
+use App\Http\Middleware\ExternalServiceAccess;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -51,7 +51,7 @@ return [
         VerifyCsrfToken::class,
         SubstituteBindings::class,
         ChangeLocale::class,
-        CheckSwaggerAccess::class
+        ExternalServiceAccess::class
     ],
 
     // Storage

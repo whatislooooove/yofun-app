@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\CheckPrometheusAccess;
+use App\Http\Middleware\ExternalServiceAccess;
+
 return [
     'enabled' => true,
 
@@ -28,7 +31,9 @@ return [
      * The middleware that will be applied to the urls above
      */
     'middleware' => [
+        'web',
         Spatie\Prometheus\Http\Middleware\AllowIps::class,
+        ExternalServiceAccess::class
     ],
 
     /*
