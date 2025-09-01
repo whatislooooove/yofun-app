@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use app\Actions\GetStatisticsAction;
 use App\DTO\IndexDTO;
 use App\DTO\FeedbackDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AnnouncementResource;
-use App\Models\Announcement;
 use App\Models\Feedback;
+use app\Repositories\AnnouncementRepository;
 use Illuminate\Http\Request;
-use OpenApi\Attributes as OA;
 
 class MainController extends Controller
 {
-    public function index() {
-        $allActive = Announcement::active()->get();
+    public function index(AnnouncementRepository $announcements) {
+        $allActive = $announcements->getActiveAnnouncements();
         $eventsData = IndexDTO::fromCollection($allActive);
 
         return response()->json([
@@ -25,19 +25,18 @@ class MainController extends Controller
         ]);
     }
 
-    public function quizzes() {
-        return AnnouncementResource::collection(Announcement::active()->quizzes()->paginate(config('app.items_per_page')));
+    public function quizzes(AnnouncementRepository $announcements) {
+        return AnnouncementResource::collection($announcements->getActiveQuizzesBuilder()
+            ->paginate(config('app.items_per_page')));
     }
 
-    public function events() {
-        return AnnouncementResource::collection(Announcement::active()->events()->paginate(config('app.items_per_page')));
+    public function events(AnnouncementRepository $announcements) {
+        return AnnouncementResource::collection($announcements->getActiveEventsBuilder()
+            ->paginate(config('app.items_per_page')));
     }
 
-    public function static(Announcement $announcement) {
-        return response()->json([
-            'todayEvents' => $announcement->countToday(),
-            'totalEvents' => $announcement->countTotal(),
-        ]);
+    public function static(GetStatisticsAction $action) {
+        return response()->json($action());
     }
 
     public function feedback(Request $request) {

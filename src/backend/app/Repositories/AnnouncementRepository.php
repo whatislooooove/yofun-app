@@ -3,6 +3,8 @@
 namespace app\Repositories;
 
 use App\Models\Announcement;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class AnnouncementRepository
 {
@@ -28,5 +30,17 @@ class AnnouncementRepository
             'extra' => $data['extra'],
             'type' => $data['type']
         ]);
+    }
+
+    public function getActiveAnnouncements(): Collection {
+        return Announcement::active()->get();
+    }
+
+    public function getActiveQuizzesBuilder(): Builder {
+        return Announcement::active()->quizzes();
+    }
+
+    public function getActiveEventsBuilder(): Builder {
+        return Announcement::active()->events();
     }
 }
