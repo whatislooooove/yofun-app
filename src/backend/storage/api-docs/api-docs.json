@@ -12,7 +12,7 @@
                     "main"
                 ],
                 "summary": "Get data for index page",
-                "operationId": "c539e73d9c100a0c5c59fcb2f248c237",
+                "operationId": "61e9ead6a8de556b9adec5d67f20c342",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -53,7 +53,7 @@
                     "main"
                 ],
                 "summary": "Get all quizzes",
-                "operationId": "e8a92707e6100fa487554abd97a051f9",
+                "operationId": "458e7264bc57853a017e6989c08786f2",
                 "parameters": [
                     {
                         "name": "page",
@@ -97,7 +97,7 @@
                     "main"
                 ],
                 "summary": "Get all events",
-                "operationId": "2b99e347197fb5826c0b5dc6750cab34",
+                "operationId": "7271709104caff040d6878140dcf20a4",
                 "parameters": [
                     {
                         "name": "page",
@@ -141,7 +141,7 @@
                     "main"
                 ],
                 "summary": "Get static data",
-                "operationId": "502aeb166655b673c1eb2352be582d85",
+                "operationId": "167addd4a04453229e87bdf3f28a3bde",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -172,7 +172,7 @@
                     "main"
                 ],
                 "summary": "Send feedback",
-                "operationId": "9b4e6fd2bf56c8f8f0f88918ce422e85",
+                "operationId": "91a76d8a0cba1d93fedc5d9e08e6fc99",
                 "requestBody": {
                     "description": "Feedback data",
                     "required": true,

@@ -42,6 +42,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - default-network
+
   server:
     image: nginx:alpine3.20
     container_name: server-nginx
@@ -53,6 +54,9 @@ services:
       - ./docker/common/nginx/logs:/var/log/nginx
     networks:
       - default-network
+    depends_on:
+      - web-dev
+      - api
 
   prometheus:
     image: prom/prometheus:latest
