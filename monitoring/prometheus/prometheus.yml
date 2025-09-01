@@ -10,12 +10,8 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ['server-nginx:80']
-    # Устаревший синтаксис:
-    # labels:
-    #   app: 'yofun-api'
-    #   env: 'production'
+    bearer_token: 'cl5TvwSrmWe6Howm'
 
-    # Новый синтаксис меток:
     relabel_configs:
       - source_labels: []
         target_label: app

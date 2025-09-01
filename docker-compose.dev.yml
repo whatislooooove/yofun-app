@@ -66,13 +66,15 @@ services:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus  # Том для хранения метрик
+      - ./monitoring/prometheus/web.yml:/etc/prometheus/web.yml
+      - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.config.file=/etc/prometheus/web.yml'
       - '--web.enable-lifecycle'
-      - '--storage.tsdb.retention.time=15d'           # Хранение 15 дней
-      - '--storage.tsdb.path=/prometheus'             # Путь для хранения
-      - '--storage.tsdb.retention.size=512MB'         # Лимит размера
+      - '--storage.tsdb.retention.time=15d'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.size=512MB'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
     networks:
@@ -106,7 +108,7 @@ networks:
 
 volumes:
   postgres-data:
-  prometheus-data: # Том для хранения метрик Prometheus
+  prometheus-data:
     driver: local
-  grafana-data: # Том для хранения данных Grafana
+  grafana-data:
     driver: local
