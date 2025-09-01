@@ -59,7 +59,7 @@ final class MistralAI implements AI
             streamFactory: $psr17Factory,
             uriFactory: $psr17Factory,
             httpClient: $httpClient,
-            apiKey: env('MISTRAL_API_KEY')
+            apiKey: config('services.mistral_ai.api_key')
         );
     }
 

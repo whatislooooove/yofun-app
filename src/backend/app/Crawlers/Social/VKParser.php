@@ -39,7 +39,7 @@ use VK\Client\VKApiClient;
 
     protected function getContent(): void
     {
-        $response = $this->vkApi->wall()->get(env('VK_API_ACCESS_TOKEN'), [
+        $response = $this->vkApi->wall()->get(config('services.vk.api_token'), [
             'owner_id' => $this->source['extra']['groupId'],
             'count' => 10
         ]);

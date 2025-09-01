@@ -13,18 +13,39 @@ class ExternalServiceAccess
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // TODO: дописать на провекру токена при обращении на роут прометеуса с сервиса прометеус
-        // Нужно реализовать проверку на bearer token
-        $userRole = auth('moonshine')->user()?->moonshineUserRole->id;
-
-        if (ProtectedRoutes::tryFrom($request->route()->getName()) && !AdvancedRoles::tryFrom($userRole)) {
-            abort(403, __('auth.forbidden'));
-        }
+        match (true) {
+            $this->isProtectedRoute() && !$this->hasAccess() => abort(403, __('auth.forbidden')),
+            default => null,
+        };
 
         return $next($request);
+    }
+
+    private function isProtectedRoute(): bool
+    {
+        return !is_null(ProtectedRoutes::tryFrom(app(Request::class)->route()->getName()));
+    }
+
+    private function hasAccess(): bool
+    {
+        return $this->isAdmin() || $this->hasBearer();
+    }
+
+    private function isAdmin(): bool
+    {
+        $userRole = auth('moonshine')->user()?->moonshineUserRole->id;
+
+        return !is_null(AdvancedRoles::tryFrom($userRole));
+    }
+
+    private function hasBearer(): bool
+    {
+        $expectedToken = 'Bearer ' . config('services.prometheus.auth_token');
+
+        return app(Request::class)->header('Authorization') === $expectedToken;
     }
 }

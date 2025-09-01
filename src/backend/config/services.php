@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    'prometheus' => [
+        'auth_token' => env('PROMETHEUS_AUTH_TOKEN', 123456)
+    ],
+
+    'vk' => [
+        'api_token' => env('VK_API_ACCESS_TOKEN', 123456)
+    ],
+
+    'mistral_ai' => [
+        'api_key' => env('MISTRAL_API_KEY', 123456)
+    ]
 ];
