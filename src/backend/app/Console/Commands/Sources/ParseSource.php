@@ -3,47 +3,58 @@
 namespace App\Console\Commands\Sources;
 
 use App\Helpers\SourceHelper;
-use App\Models\Source;
+use App\Repositories\SourceRepository;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 
 class ParseSource extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'sources:parse {--all}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Start parsing process for sources';
 
-    /**
-     * Execute the console command.
-     */
+    private Collection $sources;
+    private string $all;
+
+    public function __construct(SourceRepository $repository)
+    {
+        $this->sources = $repository->getActiveSources()->keyBy('url');
+        $this->all = __('console.sources.all', [
+            'count' => $this->sources->count()
+        ]);
+
+        parent::__construct();
+    }
+
     public function handle()
     {
-        $sources = Source::where('is_active', true)->orderBy('created_at', 'desc')->get()->keyBy('url');
-        if ($sources->isEmpty()){
-            $this->error('Active sources is doesn\'t exist');
-            return;
-        }
+        if ($this->isSourcesEmpty()) return;
 
-        $all = 'All (' . $sources->count() . ')';
-        $choice = $this->option('all') ? $all : $this->choice('Select source for parse', array_merge($sources->pluck('url')->toArray(), [$all]));
+        $choice = $this->getUserChoice();
 
-        foreach ($sources as $key => $source) {
-            if (($choice == $key) || ($choice == $all)) {
-                $this->line('Parsing ' . $key . '...');
+        foreach ($this->sources as $key => $source) {
+            if (($choice == $key) || ($choice == $this->all)) {
+                $this->line(__('console.sources.handle', ['value' => $key]));
                 SourceHelper::parseSource(source: $source, keyUrl: $key);
-                $this->line('done!');
+                $this->line(__('console.done'));
             }
         }
 
-        $this->info('All sources was scrapped');
+        $this->info(__('console.sources.parsed'));
+    }
+
+    private function isSourcesEmpty(): bool {
+        if ($this->sources->isEmpty()){
+            $this->error(__('console.sources.empty'));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getUserChoice() {
+        return $this->option('all')
+            ? $this->all
+            : $this->choice(__('console.sources.select'), array_merge($this->sources->pluck('url')->toArray(), [$this->all]));
     }
 }
