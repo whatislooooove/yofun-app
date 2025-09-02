@@ -2,6 +2,7 @@
 
 namespace app\DTO;
 
+use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -58,6 +59,15 @@ class IndexDTO
         $meta = self::generateMeta();
 
         return new static($upcomingEvents, $upcomingQuizzes, $sliderEvents, $meta);
+    }
+
+    public function toArray(): array {
+        return [
+            'sliderEvents' => AnnouncementResource::collection($this->sliderEvents),
+            'upcomingEvents' => AnnouncementResource::collection($this->upcomingEvents),
+            'upcomingQuizzes' => AnnouncementResource::collection($this->upcomingQuizzes),
+            'meta' => $this->meta
+        ];
     }
 
     private static function generateMeta(): array {

@@ -2,27 +2,20 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use app\Actions\GetStatisticsAction;
+use App\Actions\GetStatisticsAction;
 use App\DTO\IndexDTO;
-use App\DTO\FeedbackDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FeedbackRequest;
 use App\Http\Resources\AnnouncementResource;
-use App\Models\Feedback;
-use app\Repositories\AnnouncementRepository;
-use Illuminate\Http\Request;
+use App\Repositories\AnnouncementRepository;
+use App\Repositories\FeedbackRepository;
 
 class MainController extends Controller
 {
     public function index(AnnouncementRepository $announcements) {
-        $allActive = $announcements->getActiveAnnouncements();
-        $eventsData = IndexDTO::fromCollection($allActive);
+        $dto = IndexDTO::fromCollection($announcements->getActiveAnnouncements());
 
-        return response()->json([
-            'sliderEvents' => AnnouncementResource::collection($eventsData->sliderEvents),
-            'upcomingEvents' => AnnouncementResource::collection($eventsData->upcomingEvents),
-            'upcomingQuizzes' => AnnouncementResource::collection($eventsData->upcomingQuizzes),
-            'meta' => $eventsData->meta
-        ]);
+        return response()->json($dto->toArray());
     }
 
     public function quizzes(AnnouncementRepository $announcements) {
@@ -39,26 +32,11 @@ class MainController extends Controller
         return response()->json($action());
     }
 
-    public function feedback(Request $request) {
-        // todo: сделать форм реквест
-        $request->validate([
-            'name' => ['required', 'max:255', 'min:2'],
-            'email' => ['required', 'email', 'max:255'],
-            'subject' => ['required', 'max:255'],
-            'message' => ['required', 'max:16384'],
-        ]);
-
-        $feedbackData = FeedbackDTO::fromRequest($request);
-
-        Feedback::create([
-            'name' => $feedbackData->name,
-            'email' => $feedbackData->email,
-            'subject' => $feedbackData->subject,
-            'message' => $feedbackData->message,
-        ]);
+    public function feedback(FeedbackRequest $request, FeedbackRepository $repository) {
+        $repository->create($request->validated());
 
         return response()->json([
-            'message' => 'Ок'
+            'message' => 'Ok'
         ]);
     }
 }
