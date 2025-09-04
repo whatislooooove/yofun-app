@@ -25,7 +25,7 @@ class FeedbackRequest extends FormRequest
         return [
             'name' => ['required', 'max:255', 'min:2'],
             'email' => ['required', 'email', 'max:255'],
-            'telegram' => ['min:2', 'max:128'],
+            'telegram' => ['nullable', 'string', 'min:2', 'max:128', 'starts_with:@'],
             'subject' => ['required', 'max:255'],
             'message' => ['required', 'max:16384'],
         ];
