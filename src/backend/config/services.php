@@ -36,14 +36,19 @@ return [
     ],
 
     'prometheus' => [
-        'auth_token' => env('PROMETHEUS_AUTH_TOKEN', 123456)
+        'auth_token' => env('PROMETHEUS_AUTH_TOKEN')
     ],
 
     'vk' => [
-        'api_token' => env('VK_API_ACCESS_TOKEN', 123456)
+        'api_token' => env('VK_API_ACCESS_TOKEN')
     ],
 
     'mistral_ai' => [
-        'api_key' => env('MISTRAL_API_KEY', 123456)
-    ]
+        'api_key' => env('MISTRAL_API_KEY')
+    ],
+
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_CHAT_ID'),
+    ],
 ];

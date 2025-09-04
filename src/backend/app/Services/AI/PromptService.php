@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Utilities\AI;
+namespace app\Services\AI;
 
 use app\Enums\AI\Prompts;
 
-class PromptPreparator
+class PromptService
 {
     public function findAnnouncementVK(array $context): string {
         return Prompts::ParseContent->value

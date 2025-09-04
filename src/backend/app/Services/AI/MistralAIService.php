@@ -17,7 +17,7 @@ use SoftCreatR\MistralAI\MistralAIURLBuilder;
  *
  * Provides methods to instantiate the MistralAI client and send requests to the MistralAI API endpoints.
  */
-final class MistralAI implements AI
+final class MistralAIService implements AI
 {
     const PAUSE_TIME = 3;
     const MODEL_NAME = 'codestral-latest';

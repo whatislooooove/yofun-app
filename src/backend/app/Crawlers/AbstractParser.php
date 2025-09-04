@@ -6,7 +6,7 @@ use App\Contracts\AI\AI;
 use app\Crawlers\Social\VKParser;
 use App\Models\Announcement;
 use App\Models\Source;
-use App\Utilities\AI\PromptPreparator;
+use app\Services\AI\PromptService;
 
 abstract class AbstractParser implements IParser
 {
@@ -33,7 +33,7 @@ abstract class AbstractParser implements IParser
 
     protected function getAIHandledData(array $rawData): array {
         $method = $this->getPromptPreparatorMethod($this);
-        $prompt = app(PromptPreparator::class)->$method($rawData);
+        $prompt = app(PromptService::class)->$method($rawData);
 
         $mistralResponse = app(AI::class)->sendMessage($prompt);
         $preparedToArray = str_replace(['```json', '```'], ['', ''], $mistralResponse->message);

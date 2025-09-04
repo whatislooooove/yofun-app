@@ -6,14 +6,12 @@ namespace app\Crawlers\Social;
 set_time_limit(600);
 
 use AllowDynamicProperties;
-use App\Contracts\AI\AI;
 use App\Crawlers\AbstractParser;
 use App\Enums\HostsParsers;
 use App\Models\Announcement;
 use App\Models\Source;
 use app\Repositories\AnnouncementRepository;
 use app\Traits\Crawlers\LoggableCrawler;
-use App\Utilities\AI\PromptPreparator;
 use Illuminate\Support\Carbon;
 use VK\Client\VKApiClient;
 

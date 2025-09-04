@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Contracts\AI\AI;
 use App\Models\Announcement;
+use App\Models\Feedback;
 use App\Observers\AnnouncementObserver;
-use app\Services\AI\MistralAI;
+use App\Observers\FeedbackObserver;
+use app\Services\AI\MistralAIService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(AI::class, MistralAI::class);
+        $this->app->bind(AI::class, MistralAIService::class);
     }
 
     /**
@@ -24,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Announcement::observe(AnnouncementObserver::class);
+        Feedback::observe(FeedbackObserver::class);
     }
 }
