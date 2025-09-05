@@ -58,6 +58,12 @@ jobs:
             # Пуллим последние образы
             docker compose -f docker-compose.prod.yml pull
             
+            # Создаем volumes явно (на всякий случай)
+            docker volume create prometheus-data 2>/dev/null || true
+            docker volume create grafana-data 2>/dev/null || true
+            docker volume create postgres-data 2>/dev/null || true
+            docker volume create static-data 2>/dev/null || true
+            
             # Запускаем ВСЕ сервисы сразу - это гарантирует загрузку всей конфигурации
             docker compose -f docker-compose.prod.yml up -d
             
