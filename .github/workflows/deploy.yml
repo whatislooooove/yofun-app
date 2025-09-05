@@ -52,7 +52,7 @@ jobs:
           script: |
             cd /var/www/yofun-infrastructure/production
             
-            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml down -v
             docker compose -f docker-compose.prod.yml pull
             
             # Запускаем только API и БД (для инициализации volume)
