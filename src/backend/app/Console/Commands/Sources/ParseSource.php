@@ -15,18 +15,16 @@ class ParseSource extends Command
     private Collection $sources;
     private string $all;
 
-    public function __construct(SourceRepository $repository)
+    public function handle()
     {
-        $this->sources = $repository->getActiveSources()->keyBy('url');
+        // Перенес сюда, потому что при инициализации в конструкторе не проходит сборка:
+        // @php artisan package:discover --ansi падает, потому что  конструктор используется для регистрации команды,
+        // а бд во время сборки недоступно, так как сборка происходит на серверах github
+        $this->sources = app(SourceRepository::class)->getActiveSources()->keyBy('url');
         $this->all = __('console.sources.all', [
             'count' => $this->sources->count()
         ]);
 
-        parent::__construct();
-    }
-
-    public function handle()
-    {
         if ($this->isSourcesEmpty()) return;
 
         $choice = $this->getUserChoice();
