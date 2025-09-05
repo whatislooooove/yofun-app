@@ -51,25 +51,25 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/yofun-infrastructure/production
-            
+      
+            # Останавливаем и удаляем все контейнеры и volumes
             docker compose -f docker-compose.prod.yml down -v
+            
+            # Пуллим последние образы
             docker compose -f docker-compose.prod.yml pull
             
-            # Запускаем только API и БД (для инициализации volume)
-            docker compose -f docker-compose.prod.yml up -d api db
-            echo "Waiting for API to start..."
-            sleep 15
+            # Запускаем ВСЕ сервисы сразу - это гарантирует загрузку всей конфигурации
+            docker compose -f docker-compose.prod.yml up -d
             
-            # Копируем статику из образа в volume
+            echo "Waiting for services to start..."
+            sleep 30
+            
+            # Копируем статику из образа в volume (если нужно)
             echo "Copying static files to volume..."
             docker exec backend sh -c "cp -r /app/public/* /var/www/public/ 2>/dev/null || echo 'No files to copy'"
             
-            # Проверяем что файлы скопировались
             echo "Checking files in volume:"
             docker exec backend ls -la /var/www/public/
-            
-            # Запускаем все остальные сервисы
-            docker compose -f docker-compose.prod.yml up -d
             
             docker image prune -f
             echo "Deployment completed successfully!"
