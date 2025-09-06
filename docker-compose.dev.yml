@@ -8,6 +8,7 @@ services:
       - ./src/backend:/var/www
     networks:
       - default-network
+    restart: unless-stopped
 
   web-dev:
     build:
@@ -25,6 +26,7 @@ services:
       - /app/node_modules
     networks:
       - default-network
+    restart: unless-stopped
     depends_on:
       - api
     command: npm run dev
@@ -40,6 +42,7 @@ services:
       POSTGRES_DB: mari-fun
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       - default-network
 
@@ -54,6 +57,7 @@ services:
       - ./docker/common/nginx/logs:/var/log/nginx
     networks:
       - default-network
+    restart: unless-stopped
     depends_on:
       - web-dev
       - api
@@ -61,7 +65,6 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    restart: unless-stopped
     ports:
       - "9090:9090"
     volumes:
@@ -79,13 +82,13 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
     networks:
       - default-network
+    restart: unless-stopped
     depends_on:
       - api
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    restart: unless-stopped
     ports:
       - "3001:3000"
     environment:
@@ -99,6 +102,7 @@ services:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - default-network
+    restart: unless-stopped
     depends_on:
       - prometheus
 

@@ -10,7 +10,7 @@ export default async function Header({todayEventsCount = false}: {
         { href: "/events", label: "Мероприятия", description: "Концерты, выставки, шоу" },
         { href: "/quizzes", label: "Квизы", description: "Интеллектуальные игры" },
         { href: "/about", label: "О нас", description: "История и команда" },
-        { href: "/contact", label: "Контакты", description: "Связаться с нами" },
+        { href: "/contact", label: "Связаться с нами", description: "Заполнить и отправить форму обратной связи" },
     ]
 
     const staticData = (todayEventsCount === false) ? (await getStaticData()).todayEvents : todayEventsCount
@@ -39,8 +39,8 @@ export default async function Header({todayEventsCount = false}: {
                         <Link href="/quizzes" className="text-purple-200 hover:text-white transition-colors">
                             Квизы
                         </Link>
-                        <Link href="/about" className="text-purple-200 hover:text-white transition-colors">
-                            О нас
+                        <Link href="/contact" className="text-purple-200 hover:text-white transition-colors">
+                            Связаться с нами
                         </Link>
                     </nav>
 

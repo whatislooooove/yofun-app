@@ -10,6 +10,7 @@
 sudo apt update && sudo apt upgrade -y
 sudo apt install nginx -y
 sudo apt install git -y
+sudo apt-get install supervisor
 ```
 Также ставим докер согласно инструкции из [официального сайта](https://docs.docker.com/engine/install/ubuntu/#installation-methods)
 
