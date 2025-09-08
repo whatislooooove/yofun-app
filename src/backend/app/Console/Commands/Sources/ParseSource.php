@@ -3,13 +3,15 @@
 namespace App\Console\Commands\Sources;
 
 use App\Helpers\SourceHelper;
+use App\Jobs\ParseSourceJob;
+use App\Models\Source;
 use App\Repositories\SourceRepository;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
 class ParseSource extends Command
 {
-    protected $signature = 'sources:parse {--all}';
+    protected $signature = 'sources:parse {--all} {--queue}';
     protected $description = 'Start parsing process for sources';
 
     private Collection $sources;
@@ -32,12 +34,10 @@ class ParseSource extends Command
         foreach ($this->sources as $key => $source) {
             if (($choice == $key) || ($choice == $this->all)) {
                 $this->line(__('console.sources.handle', ['value' => $key]));
-                SourceHelper::parseSource(source: $source, keyUrl: $key);
+                $this->handleSources($source, $key);
                 $this->line(__('console.done'));
             }
         }
-
-        $this->info(__('console.sources.parsed'));
     }
 
     private function isSourcesEmpty(): bool {
@@ -50,9 +50,20 @@ class ParseSource extends Command
         return false;
     }
 
-    private function getUserChoice() {
+    private function getUserChoice(): array|string
+    {
         return $this->option('all')
             ? $this->all
             : $this->choice(__('console.sources.select'), array_merge($this->sources->pluck('url')->toArray(), [$this->all]));
+    }
+
+    private function handleSources(Source $source, string $key): void {
+        if ($this->option('queue')) {
+            ParseSourceJob::dispatch($source, $key)->onQueue('crawlers');
+            $this->info(__('console.sources.in_queue'));
+
+            return;
+        }
+        SourceHelper::parseSource(source: $source, keyUrl: $key);
     }
 }
