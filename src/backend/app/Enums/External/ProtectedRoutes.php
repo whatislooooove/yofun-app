@@ -10,4 +10,7 @@ enum ProtectedRoutes: string
 
     // Prometheus
     case PROMETHEUS_DEFAULT = 'prometheus.default';
+
+    // Horizon
+    case HORIZON_DEFAULT = 'horizon.index';
 }
