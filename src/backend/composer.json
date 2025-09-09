@@ -17,6 +17,7 @@
         "laravel/ui": "^4.6",
         "moonshine/moonshine": "^3.14",
         "moonshine/ru": "^1.0",
+        "predis/predis": "^3.2",
         "softcreatr/php-mistral-ai-sdk": "^2.0",
         "spatie/laravel-prometheus": "^1.2",
         "symfony/filesystem": "^7.2",
