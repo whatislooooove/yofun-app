@@ -6,11 +6,10 @@ use App\Models\Source;
 
 final class SourceHelper
 {
-    const SOURCE_EXIST_MESSAGE = 'Source exist';
     public static function addNewSource(string $url, string $parser): bool|string
     {
         if (!is_null(Source::where('url', $url)->first())) {
-            return self::SOURCE_EXIST_MESSAGE;
+            return __('console.sources.exist');
         }
 
         Source::create([

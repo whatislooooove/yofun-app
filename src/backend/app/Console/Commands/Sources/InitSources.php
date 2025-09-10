@@ -9,23 +9,10 @@ use Illuminate\Support\Facades\Artisan;
 
 class InitSources extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'sources:init';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Add default sources';
 
-    /**
-     * Execute the console command.
-     */
+
     public function handle(): void
     {
         if (Source::count() > 0) {

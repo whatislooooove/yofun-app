@@ -9,40 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AddSource extends Command
 {
-    const INPUT_MESSAGE = 'Enter correct url';
-    const INCORRECT_URL_MESSAGE = 'Incorrect url';
-    const SUCCESSFULL_MESSAGE = 'Source added';
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'source:add {url?}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Add new events resource for parsing';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
-        $sourceUrl = $this->argument('url');
-
-        if (!is_null($sourceUrl)) {
-            if (!$this->inputValidate($sourceUrl)) {
-                $this->error(self::INCORRECT_URL_MESSAGE);
-
-                return;
-            }
-        } else {
-            $sourceUrl = $this->inputHandle();
-        }
-
+        $sourceUrl = $this->getSourceUrl();
         if (($sourceParser = ParserHelper::isSpecificSource($sourceUrl)) === true) {
             $sourceParser = $this->choice('Select parser for source', ParserHelper::getParsersList());
         }
@@ -50,16 +22,22 @@ class AddSource extends Command
         $result = SourceHelper::addNewSource($sourceUrl, $sourceParser);
         if ($result !== true) {
             $this->error($result);
-
-            return;
         }
-
-        $this->info(self::SUCCESSFULL_MESSAGE);
     }
 
+    private function getSourceUrl() {
+        $sourceUrl = $this->argument('url');
+
+        if (!is_null($sourceUrl) && !$this->inputValidate($sourceUrl)) {
+            $this->error(__('console.sources.incorrect_url'));
+            exit();
+        }
+
+        return $this->inputHandle();
+    }
     private function inputHandle(): string {
         while(true) {
-            $url = $this->ask(self::INPUT_MESSAGE);
+            $url = $this->ask(__('console.sources.enter_url'));
 
             if ($this->inputValidate($url)) {
                 return $url;
