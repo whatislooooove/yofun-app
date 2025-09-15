@@ -1,6 +1,7 @@
 import type {Event, Quiz, Meta, DefaultMeta} from "./types"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN
 
 export interface IndexData {
     sliderEvents: Event[]
@@ -54,7 +55,8 @@ export async function getIndexData(): Promise<IndexData> {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache'
+                'Pragma': 'no-cache',
+                'Authorization': `Bearer ${API_TOKEN}`
             },
             cache: 'no-store'
         })
@@ -86,7 +88,8 @@ export async function getAllQuizzes(params: QueryParams = {}): Promise<QuizzesRe
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache'
+                'Pragma': 'no-cache',
+                'Authorization': `Bearer ${API_TOKEN}`
             },
             cache: 'no-store'
         })
@@ -136,7 +139,8 @@ export async function getAllEvents(params: QueryParams = {}): Promise<EventsResp
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache'
+                'Pragma': 'no-cache',
+                'Authorization': `Bearer ${API_TOKEN}`
             },
             cache: 'no-store'
         })
@@ -177,7 +181,8 @@ export async function getStaticData(): Promise<StaticData> {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${API_TOKEN}`
             },
             cache: 'no-store'
         })
