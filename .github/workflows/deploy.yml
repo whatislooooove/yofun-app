@@ -51,9 +51,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/yofun-infrastructure/production
+            
+            # Останавливаем супервизор на хосте
+            echo "Stopping supervisor..."
+            sudo systemctl stop supervisor || true
       
             # Останавливаем и удаляем все контейнеры и volumes
-            docker compose -f docker-compose.prod.yml down -v
+            docker compose -f docker-compose.prod.yml down
             
             # Пуллим последние образы
             docker compose -f docker-compose.prod.yml pull
@@ -70,6 +74,9 @@ jobs:
             
             echo "Checking files in volume:"
             docker exec backend ls -la /var/www/public/
+            
+            echo "Starting supervisor..."
+            sudo systemctl start supervisor
             
             docker image prune -f
             echo "Deployment completed successfully!"

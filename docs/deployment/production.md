@@ -17,7 +17,8 @@ sudo apt-get install supervisor
 2. Клонируем репозиторий с [инфраструктурой](https://github.com/whatislooooove/yofun-infrastructure). 
 3. Настраиваем env файл, а именно: соединяем в 1 файл переменные backend-части приложения и frontend-части
    (согласно env.example)
-4. Готово, можно вручную подтянуть образы и запустить:
+4. Настраиваем Laravel Horizon согласно [официальной документации](https://laravel.su/docs/12.x/horizon#nastroika-supervisor)
+5. Готово, можно вручную подтянуть образы и запустить:
 ```bash
   # Ручной заруск контейнеров
   docker compose -f docker-compose.prod.yml pull
