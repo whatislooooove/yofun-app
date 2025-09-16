@@ -99,6 +99,18 @@ services:
     depends_on:
       - prometheus
 
+  redis:
+    image: redis:8.2.1-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-secure_passw0rd}
+    volumes:
+      - redis-data:/data
+    networks:
+      - default-network
+    restart: unless-stopped
+
 networks:
   default-network:
     driver: bridge
@@ -109,4 +121,6 @@ volumes:
   prometheus-data: # Том для хранения метрик Prometheus
     driver: local
   grafana-data: # Том для хранения данных Grafana
+    driver: local
+  redis-data:
     driver: local

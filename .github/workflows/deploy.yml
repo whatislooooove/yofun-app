@@ -72,11 +72,14 @@ jobs:
             echo "Copying static files to volume..."
             docker exec backend sh -c "cp -r /app/public/* /var/www/public/ 2>/dev/null || echo 'No files to copy'"
             
-            echo "Checking files in volume:"
+            echo "Проверяме volume-ы:"
             docker exec backend ls -la /var/www/public/
             
-            echo "Starting supervisor..."
+            echo "Стартуем supervisor..."
             sudo systemctl start supervisor
+            sudo supervisorctl reread
+            sudo supervisorctl update
+            sudo supervisorctl start "horizon:*"
             
             docker image prune -f
-            echo "Deployment completed successfully!"
+            echo "Деплой завершен"
