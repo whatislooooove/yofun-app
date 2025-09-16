@@ -11,6 +11,4 @@ Route::middleware(['throttle:100,60', InternalServiceAccess::class])->group(func
     Route::get('/static', [MainController::class, 'static'])->name('static');
 });
 
-Route::post('/feedback', [MainController::class, 'feedback'])
-    ->middleware('throttle:1,1') // TODO: переопределить сообщение об ошибке
-    ->name('feedback');
+Route::post('/feedback', [MainController::class, 'feedback'])->name('feedback');
