@@ -41,7 +41,15 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-    const indexData = await getIndexData()
+    const indexData = await getIndexData() || {
+        meta: {
+            todayEvents: 0,
+            totalEvents: 0
+        },
+        sliderEvents: [],
+        upcomingEvents: [],
+        upcomingQuizzes: [],
+    };
 
     const hasSliderEvents = indexData.sliderEvents && indexData.sliderEvents.length > 0
     const hasUpcomingEvents = indexData.upcomingEvents && indexData.upcomingEvents.length > 0
