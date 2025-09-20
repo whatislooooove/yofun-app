@@ -8,6 +8,7 @@ export interface IndexData {
     upcomingEvents: Event[]
     upcomingQuizzes: Quiz[]
     meta: Meta
+    message?: string // TODO: плохо, надо исправить
 }
 
 export interface StaticData {
