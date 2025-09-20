@@ -87,18 +87,42 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export default function RootLayout({children,}: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ru">
-    <head>
-      <link rel="icon" href="/favicon.ico" sizes="any"/>
-      <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-      <meta name="yandex-verification" content="3673aaa3198f38a6" />
-      {/*
+      <html lang="ru">
+      <head>
+        {/* Yandex.Metrika counter */}
+        <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+              (function(m,e,t,r,i,k,a) {
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+              })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104204539', 'ym');
+
+              ym(104204539, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+            `,
+            }}
+        />
+        <noscript>
+          <div>
+            <img
+                src="https://mc.yandex.ru/watch/104204539"
+                style={{ position: 'absolute', left: '-9999px' }}
+                alt=""
+            />
+          </div>
+        </noscript>
+        {/* /Yandex.Metrika counter */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="yandex-verification" content="3673aaa3198f38a6" />
+        {/*
           ИНСТРУКЦИЯ ПО ДОБАВЛЕНИЮ ФАВИКОНОВ:
 
           1. Создайте файлы иконок в папке /public/:
@@ -122,8 +146,8 @@ export default function RootLayout({
              - Символ календаря или события
              - Первую букву названия "C"
         */}
-    </head>
-    <body>{children}</body>
-    </html>
+      </head>
+      <body>{children}</body>
+      </html>
   )
 }

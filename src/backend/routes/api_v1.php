@@ -11,4 +11,4 @@ Route::middleware(['throttle:100,60', InternalServiceAccess::class])->group(func
     Route::get('/static', [MainController::class, 'static'])->name('static');
 });
 
-Route::post('/feedback', [MainController::class, 'feedback'])->name('feedback');
+Route::post('/feedback', [MainController::class, 'feedback'])->name('feedback'); // TODO: сделать тротл, разобраться почему стандартный нестабильно работает

@@ -41,15 +41,22 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-    const indexData = await getIndexData() || {
-        meta: {
-            todayEvents: 0,
-            totalEvents: 0
-        },
-        sliderEvents: [],
-        upcomingEvents: [],
-        upcomingQuizzes: [],
-    };
+    let indexData = await getIndexData();
+
+    if ('exception' in indexData) {
+        console.log('----------------------BACKEND ERROR----------------------')
+        console.log(indexData.message)
+        console.log('---------------------------------------------------------')
+        indexData = {
+            meta: {
+                todayEvents: 0,
+                totalEvents: 0
+            },
+            sliderEvents: [],
+            upcomingEvents: [],
+            upcomingQuizzes: [],
+        };
+    }
 
     const hasSliderEvents = indexData.sliderEvents && indexData.sliderEvents.length > 0
     const hasUpcomingEvents = indexData.upcomingEvents && indexData.upcomingEvents.length > 0
