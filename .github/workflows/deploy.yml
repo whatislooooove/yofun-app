@@ -75,9 +75,11 @@ jobs:
             echo "Проверяме volume-ы:"
             docker exec backend ls -la /var/www/public/
             
-            echo "Стартуем supervisor..."
+            echo "Перезапускаем supervisor..."
+            sudo systemctl stop supervisor
+            sleep 5
             sudo systemctl start supervisor
-            sleep 3
+            sleep 5
             sudo supervisorctl reread
             sleep 1
             sudo supervisorctl update
