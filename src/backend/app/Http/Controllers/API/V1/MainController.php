@@ -37,6 +37,6 @@ class MainController extends Controller
 
         return response()->json([
             'message' => 'Ok'
-        ]);
+        ], 201);
     }
 }

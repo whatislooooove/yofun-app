@@ -100,8 +100,7 @@ export default function ContactForm() {
             const info = await resp.json()
 
             response.message = info.message ?? ''
-
-            if (resp.status !== 200) {
+            if (resp.status !== 201) {
                 setIsError(true)
                 return
             }
