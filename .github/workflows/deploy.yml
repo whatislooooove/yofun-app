@@ -77,9 +77,13 @@ jobs:
             
             echo "Стартуем supervisor..."
             sudo systemctl start supervisor
+            sleep 3
             sudo supervisorctl reread
+            sleep 1
             sudo supervisorctl update
+            sleep 1
             sudo supervisorctl start "horizon:*"
+            sleep 3
             
             docker image prune -f
             echo "Деплой завершен"
