@@ -16,7 +16,7 @@ class AddSource extends Command
     {
         $sourceUrl = $this->getSourceUrl();
         if (($sourceParser = ParserHelper::isSpecificSource($sourceUrl)) === true) {
-            $sourceParser = $this->choice('Select parser for source', ParserHelper::getParsersList());
+            $sourceParser = $this->choice(__('console.sources.parser_choice'), ParserHelper::getParsersList());
         }
 
         $result = SourceHelper::addNewSource($sourceUrl, $sourceParser);
@@ -28,9 +28,13 @@ class AddSource extends Command
     private function getSourceUrl() {
         $sourceUrl = $this->argument('url');
 
-        if (!is_null($sourceUrl) && !$this->inputValidate($sourceUrl)) {
-            $this->error(__('console.sources.incorrect_url'));
-            exit();
+        if (!is_null($sourceUrl)) {
+            if (!$this->inputValidate($sourceUrl)) {
+                $this->error(__('console.sources.incorrect_url'));
+                exit();
+            }
+
+            return $sourceUrl;
         }
 
         return $this->inputHandle();
