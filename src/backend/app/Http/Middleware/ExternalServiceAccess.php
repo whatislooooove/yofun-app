@@ -18,21 +18,21 @@ class ExternalServiceAccess
     public function handle(Request $request, Closure $next): Response
     {
         match (true) {
-            $this->isProtectedRoute() && !$this->hasAccess() => abort(403, __('auth.forbidden')),
+            $this->isProtectedRoute($request) && !$this->hasAccess($request) => abort(403, __('auth.forbidden')),
             default => null,
         };
 
         return $next($request);
     }
 
-    private function isProtectedRoute(): bool
+    private function isProtectedRoute(Request $request): bool
     {
-        return !is_null(ProtectedRoutes::tryFrom(app(Request::class)->route()->getName()));
+        return !is_null(ProtectedRoutes::tryFrom($request->route()->getName()));
     }
 
-    private function hasAccess(): bool
+    private function hasAccess(Request $request): bool
     {
-        return $this->isAdmin() || $this->hasBearer();
+        return $this->isAdmin() || $this->hasBearer($request);
     }
 
     private function isAdmin(): bool
@@ -42,10 +42,10 @@ class ExternalServiceAccess
         return !is_null(AdvancedRoles::tryFrom($userRole));
     }
 
-    private function hasBearer(): bool
+    private function hasBearer(Request $request): bool
     {
         $expectedToken = 'Bearer ' . config('services.prometheus.auth_token');
 
-        return app(Request::class)->header('Authorization') === $expectedToken;
+        return $request->header('Authorization') === $expectedToken;
     }
 }
