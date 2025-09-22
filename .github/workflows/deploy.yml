@@ -34,7 +34,7 @@ jobs:
       - name: Cache Composer packages
         uses: actions/cache@v3
         with:
-          path: vendor
+          path: src/backend/vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
@@ -58,6 +58,8 @@ jobs:
 
   build-and-push:
     runs-on: ubuntu-latest  # Собираем на серваках Github
+    needs: test  # ⬅️ ДОБАВЛЕНО: ждем завершения тестов
+    if: success()  # ⬅️ ДОБАВЛЕНО: только если тесты прошли
 
     steps:
       # Шаг 1: Забираем код из репозитория
