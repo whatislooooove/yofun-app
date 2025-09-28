@@ -119,7 +119,7 @@ export default function EventSlider({events}: EventSliderProps) {
                                                     className="w-10 h-10 bg-purple-600/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
                                                     <MapPin className="w-5 h-5 text-white"/>
                                                 </div>
-                                                <span className="text-white drop-shadow-md">{(event.location == 0) ? 'г. Йошкар-Ола' : event.location }</span>
+                                                <span className="text-white drop-shadow-md">{(event.location == '0') ? 'г. Йошкар-Ола' : event.location }</span>
                                             </div>
                                         </div>
 
