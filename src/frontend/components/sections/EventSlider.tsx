@@ -111,7 +111,7 @@ export default function EventSlider({events}: EventSliderProps) {
                                             <div className="flex items-center space-x-2">
                                                 <CreditCard className="w-4 h-4 mr-2 text-emerald-400"/>
                                                 <span
-                                                    className="text-white font-bold drop-shadow-md">{event.price} ₽</span>
+                                                    className="text-white font-bold drop-shadow-md">{(event.price > 100) ? `${event.price} ₽` : 'Цену уточняйте у организатора'}</span>
                                             </div>
 
                                             <div className="flex items-center space-x-3">
@@ -119,7 +119,7 @@ export default function EventSlider({events}: EventSliderProps) {
                                                     className="w-10 h-10 bg-purple-600/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
                                                     <MapPin className="w-5 h-5 text-white"/>
                                                 </div>
-                                                <span className="text-white drop-shadow-md">{event.location}</span>
+                                                <span className="text-white drop-shadow-md">{(event.location == 0) ? 'г. Йошкар-Ола' : event.location }</span>
                                             </div>
                                         </div>
 

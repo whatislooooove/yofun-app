@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\URL;
 #[AllowDynamicProperties] final class WowQuizParser extends WebParser
 {
     use LoggableCrawler;
-    const string DEFAULT_IMAGE = 'http://127.0.0.1:80/storage/img/wowquiz.jpg';
+    const string DEFAULT_IMAGE = 'https://sun9-78.userapi.com/s/v1/ig2/V34RvCKrqIwVPw4xsyg-MD4gl_zHBiaV3iscxukKX57Je2XCcdDSeGxHJDxDWMnEU65mFzZOOu3fec3tj2GefVHW.jpg?quality=95&crop=2,0,1282,1282&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&ava=1&cs=300x300';
     const string API_URL = 'https://api.etowow.ru/games/all';
     const string DETAIL_PAGE = 'https://yo.wowquiz.ru/schedule';
 

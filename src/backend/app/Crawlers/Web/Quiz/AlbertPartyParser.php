@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Http;
 #[AllowDynamicProperties] final class AlbertPartyParser extends WebParser
 {
     use LoggableCrawler;
+
     const string DOMAIN = 'https://yo.albertparty.ru';
+    const string DEFAULT_IMAGE = 'https://sun9-23.userapi.com/s/v1/ig2/jbJkPPMGtNfc0k0w9e30sdQV6QdUImxss8-gznsuoi7mQ_cnzDpjIVj7keilxbNwKQBTQuo4-r3bq2cLJI6X1n_Q.jpg?quality=95&crop=0,0,1080,1080&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&cs=300x300';
     const string FRANCHISE_NAME = 'AlbertParty (WowQuiz)';
+
     protected string $url;
     protected Source $source;
     private string $htmlCode;
@@ -84,7 +87,7 @@ use Illuminate\Support\Facades\Http;
             'date_start' => $dateTimePrepared,
             'price' => $pricePrepared,
             'address' => $addressPrepared,
-            'image' => urldecode($image[1]),
+            'image' => is_null(urldecode($image[1])) ? self::DEFAULT_IMAGE : self::DOMAIN . urldecode($image[1]),
             'type' => 'quiz',
             'extra' => [
                 'franchise' => self::FRANCHISE_NAME

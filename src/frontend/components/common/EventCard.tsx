@@ -113,7 +113,7 @@ export default function EventCard({event}: EventCardProps) {
                         <div className="flex items-start space-x-2 flex-1 min-w-0">
                             <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-400"/>
                             <div className="text-sm leading-tight min-w-0">
-                                <div className="break-words">{event.location}</div>
+                                <div className="break-words">{(event.location == 0) ? 'г. Йошкар-Ола' : event.location }</div>
                             </div>
                         </div>
                     </div>

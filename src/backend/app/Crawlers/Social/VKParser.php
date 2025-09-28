@@ -110,7 +110,7 @@ use VK\Client\VKApiClient;
             'site' => data_get($response, '0.site'),
             'phone' => data_get($response, '0.phone'),
             'image' => data_get($response, '0.photo_200') ?? data_get($response, '0.photo_100') ?? data_get($response, '0.photo_50') ?? null,
-            'address' => data_get($address, 'items.0.address'),
+            'address' => data_get($address, 'items.0.address') ?? 'г. Йошкар-Ола',
             'additionalAddress' => data_get($address, 'items.0.additional_address'),
             'defaultLatitude' => data_get($address, 'items.0.latitude') ?? 0,
             'defaultLongitude' => data_get($address, 'items.0.longitude') ?? 0
@@ -123,7 +123,7 @@ use VK\Client\VKApiClient;
             'source_id' => $this->source->id,
             'id_in_source' => $rawData['id'],
             'type' => 'default',
-            'image' => data_get($rawData, 'attachments.0.photo.orig_photo.url'),
+            'image' => data_get($rawData, 'attachments.0.photo.orig_photo.url') ?? data_get($this->source->extra, 'image'),
             'detail_url' => HostsParsers::VKParser->value . '/wall' . $this->source['extra']['groupId'] . '_' . $rawData['id'],
             'extra' => [
                 'publishDate' => gmdate('Y.m.d H:i:s', $rawData['date']),
