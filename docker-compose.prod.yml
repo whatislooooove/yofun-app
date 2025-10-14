@@ -2,11 +2,14 @@ services:
   api:
     image: whatisl000ve/yofun-backend:latest
     build:
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: ./docker/build/php/Dockerfile
     container_name: backend
     working_dir: /var/www
     volumes:
       - static-data:/var/www/public
+      - ./docker/common/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/common/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/common/php/php.ini:/usr/local/etc/php/php.ini-production
     networks:
       - default-network
     depends_on:
@@ -17,7 +20,7 @@ services:
     image: whatisl000ve/yofun-frontend:latest
     build:
       context: .
-      dockerfile: ./docker/node/prod/Dockerfile
+      dockerfile: ./docker/build/node/prod/Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     container_name: frontend
@@ -37,7 +40,7 @@ services:
     image: whatisl000ve/yofun-webserver:latest
     build:
       context: .
-      dockerfile: ./docker/common/nginx/prod/Dockerfile
+      dockerfile: ./docker/build/nginx/prod/Dockerfile
     container_name: server-nginx
     ports:
       - "8080:80"
@@ -64,8 +67,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./monitoring/prometheus/web.yml:/etc/prometheus/web.yml
+      - ./docker/common/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./docker/common/prometheus/web.yml:/etc/prometheus/web.yml
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -94,7 +97,7 @@ services:
       - GF_SMTP_ENABLED=${GRAFANA_SMTP_ENABLED:-false}
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./docker/common/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - default-network
     depends_on:
@@ -118,10 +121,10 @@ networks:
 
 volumes:
   postgres-data:
-  static-data: # Для прокидывания статических файлов в nginx
-  prometheus-data: # Том для хранения метрик Prometheus
+  static-data:
+  prometheus-data:
     driver: local
-  grafana-data: # Том для хранения данных Grafana
+  grafana-data:
     driver: local
   redis-data:
     driver: local

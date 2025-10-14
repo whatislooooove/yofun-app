@@ -1,11 +1,14 @@
 services:
   api:
     build:
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: ./docker/build/php/Dockerfile
     container_name: backend
     working_dir: /var/www
     volumes:
       - ./src/backend:/var/www
+      - ./docker/common/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/common/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/common/php/php.ini:/usr/local/etc/php/php.ini-production
     networks:
       - default-network
     depends_on:
@@ -15,7 +18,7 @@ services:
   web-dev:
     build:
       context: .
-      dockerfile: ./docker/node/dev/Dockerfile
+      dockerfile: ./docker/build/node/dev/Dockerfile
     container_name: frontend
     ports:
       - "3000:3000"
@@ -70,8 +73,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./monitoring/prometheus/web.yml:/etc/prometheus/web.yml
+      - ./docker/common/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./docker/common/prometheus/web.yml:/etc/prometheus/web.yml
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -101,7 +104,7 @@ services:
       - GF_SMTP_ENABLED=${GRAFANA_SMTP_ENABLED:-false}
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./docker/common/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - default-network
     restart: unless-stopped
