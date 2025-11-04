@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command(ActualizeAnnouncements::class)->name('Actualize data')->daily();
-        $schedule->command(ParseSource::class, ['--all --queue'])->name('Main crawlers')->daily();
+        $schedule->command(ActualizeAnnouncements::class)->name('Actualize data')->daily()->withoutOverlapping();;
+        $schedule->command(ParseSource::class, ['--all --queue'])->name('Main crawlers')->daily()->withoutOverlapping();;
     })
     ->create();
