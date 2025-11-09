@@ -91,9 +91,6 @@ export default async function Footer({totalEventsCount = false}: {
 
           <div className="border-t border-purple-800/30 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-purple-400 text-sm mb-4 md:mb-0">© {new Date().getFullYear()} yofun. Все права защищены.</p>
-            <Link href="https://sniminadolgo.ru" className="mb-4 md:mb-0 text-indigo-500 hover:text-white text-sm transition-colors" target="_blank">
-              sniminadolgo.ru - наши партнеры
-            </Link>
             <p className="text-purple-500 text-sm mb-4 md:mb-0">{staticData === 0
                 ? ''
                 : 'Всего в нашей базе ' + staticData + ' актуальных мероприятий'}</p>
