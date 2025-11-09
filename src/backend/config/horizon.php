@@ -186,7 +186,7 @@ return [
         'supervisor-1' => [
             'connection' => 'redis',
             'queue' => ['telegram', 'crawlers'],
-            'balance' => 'auto',
+            'balance' => false,
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
             'maxTime' => 0,
